@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="scripts/demos.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+</head>
+
+<body>
+
+<button id="btnSignal" type="button" onclick="onBtnClick()">Signal</button>
+
+<input type="text" id="input"/>
+
+<script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+
+<script>
+
+    var apiKey = "45543712";
+
+    var sessionId = "1_MX40NTU0MzcxMn5-MTQ1OTU2MTMzNzM0MX5ldXJLSERsaVpNQWc4VWdSc1dmOFRNaEZ-UH4";
+    var token =   "T1==cGFydG5lcl9pZD00NTU0MzcxMiZzaWc9NmZkOTRmN2VjNTc3NDQ5M2RhMGE1MWNmZjYxNmM5ZWEwZGM0NTMzMzpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTFfTVg0ME5UVTBNemN4TW41LU1UUTFPVFUyTVRNek56TTBNWDVsZFhKTFNFUnNhVnBOUVdjNFZXZFNjMWRtT0ZSTmFFWi1VSDQmY3JlYXRlX3RpbWU9MTQ1OTU2MTM1NSZub25jZT0wLjgwNjY1MTQ0MTY3NDkxNTMmZXhwaXJlX3RpbWU9MTQ1OTU2NDkzMiZjb25uZWN0aW9uX2RhdGE9";
+
+    var session = OT.initSession(apiKey, sessionId);
+    var I = 0;
+
+    session.connect( token, function( err ) {
+
+        if(err) {
+            alert("fucked up! " + err.message );
+        }
+
+    });
+
+    session.on("signal", function(event) {
+        // console.log("Signal sent from connection " + event.from.id);
+        // Process the event.data property, if there is any data.
+
+        console.log("Signal recieved: " + event.data);
+
+    });
+
+
+    function onBtnClick() {
+
+        var btnSig = document.getElementById("btnSignal");
+
+        var signalData = "hello " + I++;
+        console.log(signalData);
+
+        btnSig.value = signalData;
+        btnSig.style.color = "red";
+
+        session.signal(
+        {
+            data: signalData
+        },
+        function(error) {
+            if (error) {
+                console.log("signal error ("
+                        + error.code
+                        + "): " + error.message);
+            } else {
+
+                console.log("signal sent.");
+            }
+        } );
+    }
+
+</script>
+
+<script>
+    var apiKey = "45543712";
+
+    var sessionId = "2_MX40NTU0MzcxMn5-MTQ1OTUzNzI0NjMxNH5jNmUySnBQdEQwamV2UlNQSGNVbkkrSGZ-UH4";
+    var token =   "T1==cGFydG5lcl9pZD00NTU0MzcxMiZzaWc9YTYyMDRlMTIwMDI3YzlmNjUzNWIxMTBiYjM0NTIwMmNlN2RmMDdlMTpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5UVTBNemN4TW41LU1UUTFPVFV6TnpJME5qTXhOSDVqTm1VeVNuQlFkRVF3YW1WMlVsTlFTR05WYmtrclNHWi1VSDQmY3JlYXRlX3RpbWU9MTQ1OTUzNzI1NCZub25jZT0wLjYzNDg2MDE2NzUwMjIwOTQmZXhwaXJlX3RpbWU9MTQ1OTU0MDgzOSZjb25uZWN0aW9uX2RhdGE9";
+
+    var session = OT.initSession(apiKey, sessionId);
+    var I = 0;
+
+    session.connect( token, function( err ) {
+
+        if(err) {
+            alert("fucked up! " + err.message );
+        }
+
+    });
+
+    session.on("signal", function(event) {
+        console.log("Signal sent from connection " + event.from.id);
+        // Process the event.data property, if there is any data.
+    });
+
+
+    function onBtnClick() {
+
+        var btnSig = document.getElementById("btnSignal");
+
+        var signalData = "hello " + I;
+        console.log(signalData);
+
+        btnSig.value = signalData;
+        btnSig.style.color = "red";
+
+        session.signal(
+        {
+            data: signalData
+        },
+        function(error) {
+            if (error) {
+                console.log("signal error ("
+                        + error.code
+                        + "): " + error.message);
+            } else {
+
+                console.log("signal sent.");
+            }
+        } );
+    }
+</script>
+
+</body>
+</html>

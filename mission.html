@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MssionKeeper Mission Viewer</title>
+
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="js/map.js"></script>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!--Import foundation.css-->
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/MissionKeeperStyle.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <!-- Custom Scrollbar Styles  -->
+    <link rel="stylesheet" href="css/style-blue.css" />
+    <!--Import jQWidgets-->
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.dark.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.energyblue.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.black.css" type="text/css" />
+
+    <!-- Azure Media Player Style -->
+    <link href="//amp.azure.net/libs/amp/1.6.3/skins/amp-default/azuremediaplayer.min.css" rel="stylesheet">
+
+    <!-- JWplayer  -->
+    ​<script src="jwplayer-7.3.5/jwplayer.js"></script>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--JQWidgets Scripts - Start -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/demos.js"></script>
+    <!-- jQWidgets Javascript -->
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdocking.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxtextarea.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+
+    <!-- Google Maps Javascript  -->
+
+
+    <!-- Azure Media Player -->
+    <script src="//amp.azure.net/libs/amp/1.6.3/azuremediaplayer.min.js"></script>
+    <!-- OpenTok Javascript -->
+    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#docking').jqxDocking({  orientation: 'vertical', width: 250, mode: 'default', theme: 'dark' });
+            $('#docking').jqxDocking('importLayout', '{"panel0": {"window0":{"collapsed":true},"window1":{"collapsed":true},"window2":{"collapsed":false},"window3":{"collapsed":true}},"orientation": "vertical"}');
+            $('#docking').jqxDocking('showCollapseButton', 'window0');
+            $('#docking').jqxDocking('showCollapseButton', 'window1');
+            $('#docking').jqxDocking('showCollapseButton', 'window2');
+            $('#docking').jqxDocking('showCollapseButton', 'window3');
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+          $('#dockingVideoChat').jqxDocking( {
+                orientation : 'vertical',
+                width: 600,
+                mode: 'default',
+                theme: 'dark'
+            } );
+
+
+            $('#dockingVideoChat').jqxDocking('showCollapseButton', 'window5');
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $('body').contents().eq(0).each(function(){
+                if(this.nodeName.toString()=='#text' && this.data.trim().charCodeAt(0)==8203){
+                    $(this).remove();
+                }
+            });
+        });
+    </script>
+</head>
+<body class='default'>
+    <!-- Header -->
+    <div class="top-bar" style="background-color: #0a0a0a; width:100%; padding: 0px; height: 30px; border-bottom-color: #0a73a7; border-bottom-style: solid; border-bottom-width: 2px;">
+
+        <div id="siteLogo" style="height: 30px; width: 200px; float: left; text-align: left; padding-left: 10px; ">
+            <p style="color: #FFFFFF; font-size: large; font-weight: bold">MissionKeeper.tv</p>
+        </div>
+
+        <div id="audioVideoControls" style="height: 30px; vertical-align: middle; float: left; padding-left: 10px">
+            <img src="img/MuteIcon.png" height="15" width="15" onclick="muteVideoChat();">&nbsp;
+            <img src="img/VideoChatIcon.png" height="15" width="15" onclick="toggleVideoChatPanel();">&nbsp;
+            <img src="img/ShareDesktopIcon.png" height="15" width="15" onclick="shareDesktop();">&nbsp;
+            <img src="img/MissionArchive.png" height="15" width="15" onclick="loadStreamArchive();">&nbsp;
+            <img src="img/Ellipses.png" height="20" width="15" onclick="loadOptionsPopup();">
+        </div>
+
+        <div id="siteSettingsButtons" style="height: 30px; width: 180px; vertical-align: middle; float: right; text-align: right; padding-right: 20px;">
+            <img src="img/SchedulerIcon.png" height="15" width="15" onclick="openSchedulerPanel();">&nbsp;&nbsp;
+            <img src="img/SettingsIcon.png" height="15" width="15" onclick="toggleSettingsPopup();">&nbsp;&nbsp;
+            <img src="img/FullscreenIcon.png" height="15" width="15" onclick="makeFullScreen();">
+        </div>
+
+        <script type="text/javascript">
+            function muteVideoChat() {
+                alert("wow1");
+            }
+
+            function shareDesktop() {
+
+                // For Google Chrome only, register your extension by ID. You can
+                // find it at chrome://extensions once the extension is installed.
+                //
+                // The last parameter assumes you are using the latest version (version 2)
+                // of the OpenTok Chrome extension source code.
+                OT.registerScreenSharingExtension('chrome', '<YOUR_CHROME_EXTENSION_ID>', 2);
+
+
+                var desktopPub = OT.initPublisher('camera');
+                session.publish(desktopPub, function() {
+                    screenshare();
+                });
+
+            }
+
+            function loadStreamArchive() {
+                alert("wow3");
+            }
+
+            function loadOptionsPopup() {
+                alert("wow4");
+            }
+
+            function makeFullScreen() {
+                alert("wow5");
+            }
+
+            function toggleSettingsPopup() {
+                alert("wow6");
+            }
+
+            function openSchedulerPanel() {
+                alert("wow7");
+            }
+
+            function toggleVideoChatPanel() {
+                alert("wow8");
+            }
+        </script>
+
+    </div>
+
+    <!-- Body  -->
+    <div class="container-fluid fillGrid" style="max-height: 900px; background-image: url('img/backgroundImage.png'); background-repeat: no-repeat; background-attachment: fixed; background-position: left;">
+        <div class="row-fluid">
+            <!-- AudioVideo Chat Controls SideBar  -->
+            <div class="fixedGrid">
+                <div style="width: 100%; height: 100%; background-color: #0a0a0a;">
+                    <div id="videoChatParticipantsContainer">
+                        <div id="attendeesHeader" class="listHeader">
+                            Attendees
+                        </div>
+                        <div id="participantsHeader" class="listSubHeader">
+                            Participants
+                        </div>
+                        <div id="participantsList" class="scrollbar-9" style="background-color: #0a0a0a; overflow-y: auto; height: 200px; padding-top: 8px">
+
+                        </div>
+                        <div id="observersHeader" class="listSubHeader">
+                            Observers
+                        </div>
+                        <div id="observersList" class="scrollbar-9" style="background-color: #0a0a0a; overflow-y: auto; height: 120px">
+
+                        </div>
+                    </div>
+                    <div id="textChatContainer" style="padding-bottom: 20px">
+                        <div id="chatHeader" class="listHeader">
+                            Chat
+                        </div>
+                        <div id="chatList" class="scrollbar-9" style="background-color: #0a0a0a; overflow-y: auto; height: 300px; padding-left: 10px; padding-top: 8px; margin: 0">
+
+                        </div>
+                        <div id="chatEntry" style="text-align: center">
+
+                            <textarea id="chatSendText"></textarea>
+                            <br/>
+                            <input type="button" value="Submit" id='btnSignal' />
+
+                            <!-- Chat Text Entry Javascript -->
+                            <script type="text/javascript">
+                                $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 90, width: 200, minLength: 1, theme: 'dark', scrollBarSize: 2});
+
+                                $("#btnSignal").jqxButton({ theme: 'dark', width: '150', height: '25'});
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Container -->
+            <div class="hero-unit fillerGrid">
+                    <div id="videoPlayerContainer">
+                        <video id="azuremediaplayer" class="azuremediaplayer amp-default-skin amp-big-play-centered" tabindex="0" width="auto" height="837px"></video>
+                        <!-- <video width="320" height="240" controls>
+                            <source src="https://cdn.liveleak.com/80281E/ll_a_s/2016/Apr/14/LiveLeak-dot-com-312_1460679081-VdeomostramomentoemquefuncionriodaTemTud_1460679074.mp4.h264_720p.mp4?d5e8cc8eccfb6039332f41f6249e92b06c91b4db65f5e99818bdd1964a44d9d28309&ec_rate=230&ec_seek=0" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video> -->
+                    </div>
+                    <div id="dockContainer">
+                        <!-- Docking Widget - Start -->
+                        <div id='jqxWidgetDock'>
+                            <div id="docking">
+                                <div>
+                                    <div id="window0" style="height: 200px">
+                                        <div>
+                                            STREAMS
+                                        </div>
+                                        <div id="streamsList">
+                                            No Streams Available...
+                                        </div>
+                                    </div>
+                                    <div id="window1" style="height: 300px">
+                                        <div>
+                                            MAP
+                                        </div>
+                                        <div id="map" style="border:0; vertical-align: middle; text-align: center; width: 150px; height: 450px; overflow: visible;">
+                                            <script async defer
+                                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRl0RJms6XMDz3Bpfg0NKu0UnSAGBN_g8&libraries=visualization&callback=initMap">
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div id="window2" style="height: 560px; padding: 0">
+                                        <div>
+                                            WEATHER
+                                        </div>
+                                        <div style="padding: 0; width: 100%; height: 360px;">
+                                            <div style="padding: 0">
+                                                <img src="img/WeatherMap_nonAnim.png" width="250">
+                                            </div>
+                                            <div style="padding: 0; width: 100%; height: 30px; background-color: black">
+                                                <p>Weather Station Data</p>
+                                            </div>
+                                            <div style="padding: 0; width: 100%; height: 150px; background-color: white">
+                                                <p>Weather Station Data</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="window3" style="height: 500px">
+                                        <div>
+                                            DEVICE INFO
+                                        </div>
+                                        <div>
+                                            Some aspects attributed to the first RISC-labeled designs around 1975 include the
+                                            observations that the memory-restricted compilers of the time were often unable
+                                            to take advantage...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Panel - Video Chat -->
+                    <div id="videoChatContainer">
+                        <!-- Docking Widget - Start -->
+                        <div id='jqxWidgetDock_2'>
+                            <div id="dockingVideoChat">
+                                <div>
+                                    <div id="window5" style="height: 150px">
+                                        <div>
+                                            VIDEO CHAT
+                                        </div>
+                                        <div id="talkingHeadsContainer">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Docking Widget - End -->
+                    </div>
+                    <div id="contentFooter" class="container-fluid fillGrid" style="height: 30px; background-color: black; color: white; opacity: 0.8; padding-left: 20px; font-size: smaller; vertical-align: middle">
+                        MissionCaster.TV • © 2015 • All Rights Reserved • Terms of Use • Privacy Policy
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <script>
+
+            var missionID = getParameterByName('Id');
+            var missionName = getParameterByName('Name');
+            var vUserName = sessionStorage.getItem( "username" );
+            var vRole = sessionStorage.getItem( "pilot" );
+            var vMissionData;
+            var map;
+
+            var session;
+            var publisher;
+            var desktopPub;
+
+            /* Telemetry timer */
+            var telemetryTimer;
+            var timerFired = 0;
+            var timerInterval = 30000;
+            var flightPath;
+
+
+            document.title = missionName + ' Mission (' + missionID + ')';
+
+            setupMission(missionID);
+
+            function setupMission(missionID) {
+
+                var apiKey = null;
+
+                var uriMission = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID;
+                $.getJSON(uriMission, function(missionData)  {
+
+                    vMissionData = missionData;
+
+                    apiKey = missionData.ApiKey;
+
+                    var uriToken = "http://missionkeeperapi.azurewebsites.net/api/session/mission/" +  missionID + "/username/" + vUserName + "/role/" + vRole ;
+
+                    setupStreams(missionData.VideoStreams);
+
+                    for ( let missionStream of missionData.VideoStreams  ) {
+
+                        if ( missionStream.IsDefault == true) {
+                            setupPlayer(missionStream);
+                            // Setup the Telemetry update timer
+                            synchronizeTelemetry(missionStream.StreamID);
+                        }
+                    }
+
+                    $.getJSON(uriToken, function (tokenData) {
+
+                            if(!tokenData) {
+                                alert("No mission data available");
+                            }
+                            else {
+                                setupSession( apiKey, tokenData.SessionID, tokenData.Token);
+                            }
+
+                        })
+                        .fail(function( jqxhr, textStatus, error ) {
+                            var err = textStatus + ", " + error;
+                            console.log( "Request Failed: " + err );
+                            return;
+                        })
+                        .always(function() {
+                            console.log( "completed" );
+                        });
+
+                } );
+
+            }
+
+            function setupStreams( streamsData ) {
+
+                if ( streamsData.length == 0 ) {
+                    return;
+                }
+
+                var streamsElement = document.getElementById("streamsList");  //  List of all the streams for this mission
+                {
+                    /* Clear the Nodes from the list */
+                    var last;
+                    while (last = streamsElement.lastChild) streamsElement.removeChild(last);
+                }
+
+                for( let tStream of streamsData ) {
+
+                    console.log( "stream " + tStream.Name );
+
+                    // Create a Div for each stream
+                    var streamDiv = document.createElement("div");
+                    streamDiv.setAttribute("data-streamID", tStream.StreamID )
+
+                    streamDiv.className += " paraName";
+
+                    // Add the Name Node..
+                    var nameNode = document.createTextNode( tStream.Name );
+                    streamDiv.appendChild(nameNode);
+
+                    // Add the Platform Node..
+                    var platformNode = document.createTextNode( tStream.Platform );
+                    streamDiv.appendChild(platformNode);
+
+                    // Add the Thumbnail Image Node..
+                    var thumbNode = document.createElement("img")
+
+                    thumbNode.setAttribute("src", tStream.ThumbnailURI );
+
+                    thumbNode.addEventListener('click', function(){
+                        switchStream(tStream.StreamID);
+                    });
+
+                    streamDiv.appendChild(thumbNode);
+
+                    streamsElement.appendChild(  streamDiv );
+                }
+            }
+
+            function  setupSession( apikey, sessionid, token ) {
+
+                console.log( "ApiKey " + apikey );
+                console.log( "SessionId " + sessionid);
+
+                session = OT.initSession(apikey, sessionid);
+
+                var pubProps = {fitMode: "cover", height: "110px", width: "110px", name: vUserName, insertMode: "append", showControls: true };
+
+                publisher = OT.initPublisher('talkingHeadsContainer', pubProps, function (error) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("Publisher initialized.");
+                    }
+                });
+
+                session.connect( token, function( err ) {
+
+                    if (err) {
+                        alert("Token Expired");
+                        publisher.destroy();
+                        publisher = null;
+                    }
+                    else {
+                        session.publish(publisher, function (err) {
+                            if (err) {
+
+                                if (err.code === 1553 || (err.code === 1500 && err.message.indexOf("Publisher PeerConnection Error:") >= 0)) {
+                                    showMessage("Streaming connection failed. This could be due to a restrictive firewall.");
+                                }
+                                else {
+                                    showMessage("An unknown error occurred while trying to publish your video. Please try again later.");
+                                }
+                                publisher.destroy();
+                                publisher = null;
+
+                            }
+                        });
+                    }
+                } ) ;
+
+                session.on("connectionCreated", function(event) {
+
+                    var tUserName =  getUsername(event.connection.data);
+
+                    var participantsElement = document.getElementById("participantsList");  //  participantsHeader
+
+                    // Create a div
+                    var paraRow = document.createElement("div");
+
+                    // Add a Class
+                    paraRow.className += " paraRow";
+
+                    // Create a Div
+                    var paraName = document.createElement("div");
+
+                    // Add a Class
+                    paraName.className += " paraName";
+                    var particpntNode = document.createTextNode( tUserName );
+                    paraName.appendChild(particpntNode);
+
+                    // Add to first Div
+                    paraRow.appendChild(paraName);
+
+                    // Create a Div
+                    var paraButtons = document.createElement("div");
+                    var dropButton = document.createElement("img");
+                    dropButton.setAttribute('src', 'img/disableChatIcon.png');
+                    dropButton.className += " paraButtons";
+                    var imgSpace = document.createTextNode("&nbsp");
+                    //var imgSpace2 = document.createTextNode("&nbsp");
+                    var muteButton = document.createElement("img");
+                    muteButton.setAttribute('src', 'img/participantsMuteIcon.png');
+                    muteButton.className += " paraButtons";
+                    paraButtons.appendChild(dropButton);
+                    paraButtons.appendChild(imgSpace);
+                    //paraButtons.appendChild(imgSpace2);
+                    paraButtons.appendChild(muteButton);
+
+                    // Add to first Div
+                    paraRow.appendChild(paraButtons);
+
+                    participantsElement.appendChild(paraRow);
+
+                });
+
+                session.on("streamCreated", function(event) {
+
+                    console.log( "Stream Created" ) ;
+
+                    var subParams = {fitMode: "cover", height: "110px", width: "110px", name: "subKarl", insertMode: "append", showControls: true};
+                    subscriber = session.subscribe(event.stream, "talkingHeadsContainer", subParams );
+                });
+
+                session.on("signal", function(event) {
+
+                    var tUserName =  getUsername(event.from.data);
+                    console.log("Signal Received: " + event.data + " (" + tUserName + ")" );
+
+                    // Create text chat & Participants name div containers
+                    var paraContainer = document.createElement("div");
+                    var nameContainer = document.createElement("div");
+                    paraContainer.className += " chatterContainer";
+                    nameContainer.className += " chatterNameContainer";
+
+                    // Create newline element
+                    var newline = document.createElement("br");
+
+                    // Create chatter's name element
+                    var chatter = document.createElement("p");
+                    chatter.className += " chatterName";
+
+                    // Create chat text element
+                    var para = document.createElement("p");
+                    para.className += " chatText";
+
+                    // Append Participants name text to "p" element
+
+                    // var chatterNode = document.createTextNode( tUserName + ' (' + vRole + ')' );
+                    var chatterNode = document.createTextNode( tUserName  );
+                    chatter.appendChild(chatterNode);
+
+                    // Append chat text to "p" element
+                    var node = document.createTextNode(event.data);
+                    para.appendChild(node);
+
+                    // Append chat text element to container div
+                    nameContainer.appendChild(chatter);
+
+                    // Append new line element to container div
+                    // nameContainer.appendChild(newline);
+
+                    // Append chat text element to container div
+                    nameContainer.appendChild(para);
+
+                    // Append Participants name text element to container div
+                    //paraContainer.appendChild(para);
+
+                    var chatterElement = document.getElementById("chatList");
+                    chatterElement.appendChild(nameContainer);
+
+                    var element = document.getElementById("chatList");
+                    element.appendChild(paraContainer);
+
+                    // Keeps div scrolled to the bottom so incoming chats can be seen
+                    var objDiv = document.getElementById("chatList");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                });
+
+                publisher.on({
+                    accessAllowed: function (event) {
+                        // The user has granted access to the camera and mic.
+                        console.log("Granted: camera and mic.");
+                    },
+                    accessDenied: function accessDeniedHandler(event) {
+                        // The user has denied access to the camera and mic.
+                        console.log("Denied: camera and mic.");
+                    }
+                });
+
+            }
+
+            function getUsername(fromData) {
+
+                var x = fromData.split(',')[0];
+                var y = x.split('=')[1];
+                return y;
+
+            }
+
+            function getParameterByName(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
+                        results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+
+            function screenshare() {
+                OT.checkScreenSharingCapability(function(response) {
+                    if (!response.supported || response.extensionRegistered === false) {
+                        alert('This browser does not support screen sharing.');
+                    } else if (response.extensionInstalled === false) {
+                        alert('Please install the screen sharing extension and load your app over https.');
+                    } else {
+                        // Screen sharing is available. Publish the screen.
+                        var screenSharingPublisher = OT.initPublisher('screen-preview', {videoSource: 'screen'});
+                        session.publish(screenSharingPublisher, function(error) {
+                            if (error) {
+                                alert('Could not share the screen: ' + error.message);
+                            }
+                        });
+                    }
+                });
+            }
+
+            $('#btnSignal').on('click', function (event) {
+
+                var btnSig = document.getElementById("btnSignal");
+
+                var signalData = document.getElementById('chatSendText').value;
+
+                if ("" == signalData ) {
+                    // If the signalData is an String.Empty just exit out and don't send the text.
+                    return;
+                }
+
+                document.getElementById('chatSendText').value = "";
+
+                session.signal(
+                    {
+                        data: signalData
+                    },
+                    function (error) {
+                        if (error) {
+                            console.log("signal error ("
+                                    + error.code
+                                    + "): " + error.message);
+                        } else {
+                            console.log("Signal sent : " + signalData);
+                        }
+                    });
+            });
+
+            function onBtnClick() {
+
+                var btnSig = document.getElementById("btnSignal");
+
+                var signalData = document.getElementById('chatSendText').value;
+
+                if ("" == signalData ) {
+                    // If the signalData is an String.Empty just exit out and don't send the text.
+                    return;
+                }
+
+                document.getElementById('chatSendText').value = "";
+
+                btnSig.value = signalData;
+
+                session.signal(
+                    {
+                        data: signalData
+                    },
+                    function (error) {
+                        if (error) {
+                            console.log("signal error ("
+                                    + error.code
+                                    + "): " + error.message);
+                        } else {
+                            console.log("Signal sent : " + signalData);
+                        }
+                    });
+            }
+
+            function switchStream(streamID) {
+
+                console.log( "Switch to stream " + streamID);
+
+                for ( let missionStream of vMissionData.VideoStreams  ) {
+
+                    if ( missionStream.StreamID == streamID) {
+                        setupPlayer(missionStream);
+                        synchronizeTelemetry(missionStream.StreamID);
+                    }
+                }
+
+            }
+
+            function setupPlayer(streamData) {
+
+                var myOptions = {
+                    "nativeControlsForTouch": false,
+                    controls: false,
+                    autoplay: true,
+                    logo: { enabled: false }
+                }
+                myPlayer = amp("azuremediaplayer", myOptions);
+                myPlayer.src([
+                    {
+                        "src": streamData.VideoURI,
+                        "type": "video/mp4"
+                    }
+                ]);
+            }
+
+
+            function synchronizeTelemetry( streamID ) {
+
+                if ( telemetryTimer == null ) {
+                    setupTelemTimer(streamID);
+                }
+
+                updateTelemetry( elapsedTime() );
+
+
+                /* This is a closure that belongs inside synchronizeTelemetry.  What is does is
+                 * set up a timer to continuously call its parent (synchronizeTelemetry)
+                  * */
+                function setupTelemTimer(streamID) {
+
+                    telemetryTimer = setInterval(function(){ synchronizeTelemetry(streamID) }, timerInterval);
+
+                    /*  Call the updateMap function once in order to get the initial position */
+                    timerFired = -timerInterval;
+
+                }
+
+                function elapsedTime() {
+
+                    var rtnTime = timerFired / 1000;
+                    // Get video count Extra comment
+                    //var vPlayer = document.getElementById('azuremediaplayer');
+                    //var currTimeCode = vPlayer.player.mediaplayer.currentAbsoluteTime();
+
+
+                    timerFired += timerInterval;
+
+                    return rtnTime;
+
+                };
+
+                function updateTelemetry( elapsedTime ){
+
+                    // Build URI to get JSON from
+                    var uriStreamTelemetry = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID + "/stream/" + streamID + "/flightpath/" + elapsedTime;
+
+                    //Get JSON telemetry and call new timer
+                    $.getJSON(uriStreamTelemetry, function (telemData) {
+
+                        if(telemData.length > 0 && map != null) {
+
+                            updateMap(telemData);
+
+                            var telem = telemData[telemData.length - 1];
+
+                            map.setCenter(telem, 16);
+                        }
+                    });
+
+                }
+
+                /* This is a closure that belongs inside synchronizeTelemetry */
+                function updateMap( telemData ) {
+                    if( flightPath != null ) {
+                        flightPath.setMap(null);
+                    }
+
+                    // loop through json and find telemdata for cooresponding video count
+                    flightPath = new google.maps.Polyline({
+                        path: telemData,
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 3,
+                        map: map
+                    });
+
+                    flightPath.setMap(map);
+                }
+
+            }
+
+            function initMap(){
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 14,
+                    center: {lat:36.586246, lng:-79.391800},
+                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                });
+                    //36.585624, -79.385838
+                    //36.585624, -79.385838
+                    //36.588508, -79.394911
+                    //36.586246, -79.391800
+            }
+
+        </script>
+    </div>
+
+    <!--Import jQuery before materialize.js-->
+
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+
+    <!--Import jQuery before foundation-->
+
+    <script src="js/vendor/what-input.min.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+
+</body>
+</html>

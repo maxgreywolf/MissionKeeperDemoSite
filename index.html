@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!--Import foundation.css-->
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/MissionKeeperStyle.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <!-- Custom Scrollbar Styles  -->
+    <link rel="stylesheet" href="css/style-blue.css" />
+
+    <!--Import jQWidgets-->
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-le-frog.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.dark.css" type="text/css" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!--JQWidgets Scripts - Start -->
+    <title id='Description'>In this demo, the jqxDocking layout is imported from JSON string by using the importLayout method.</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/demos.js"></script>
+    <!-- jQWidgets Javascript -->
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdocking.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdate.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscheduler.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscheduler.api.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatetimeinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxpopover.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxtooltip.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxnumberinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxradiobutton.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/globalization/globalize.js"></script>
+    <script type="text/javascript" src="jqwidgets/globalization/globalize.culture.de-DE.js"></script>
+    <script type="text/javascript" src="js/date.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var source =
+            {
+                dataType: 'ics',
+                url: 'sampledata/icalendar.txt'
+            };
+            var adapter = new $.jqx.dataAdapter(source);
+
+
+            $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
+
+        });
+    </script>
+
+    <script>
+
+        var uriMissions = "http://missionkeeperapi.azurewebsites.net/api/missions";
+
+        $.getJSON(uriMissions, function(missionsData)  {
+
+                setupCurrentMissions(missionsData);
+
+                setupSchedule(missionsData);
+            });
+
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var tUserName = sessionStorage.getItem( "username" );
+            if( tUserName == null  ) {
+
+                $("#jqxwindow").jqxWindow({height: 300, width: 250, theme: 'dark', isModal: true, autoOpen: true});
+                $("#jqxwindow").jqxWindow('open');
+
+            }
+
+            $("#button_input").click(function () {
+
+                var tUserName = $("#textbox_Username").val();
+                sessionStorage.setItem("username",  tUserName );
+
+                var tRoleName = "Pilot";
+                sessionStorage.setItem("roleName",  tRoleName );
+
+                $("#logoutButton").text("Sign Out (" + tUserName + ")");
+                $("#logoutButton").jqxButton({ width: 240, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
+
+                $("#jqxwindow").jqxWindow('close');
+            });
+            $("#button_no").click(function () {
+                alert("Invalid Login");
+            });
+        });
+    </script>
+
+    <script>
+
+
+        function setupSchedule(missionsData) {
+
+            var missions = new Array();
+
+            $.each( missionsData, function( index, value ) {
+
+                var tComex = parseJsonDate( value.Comex );
+                var tFinex = parseJsonDate( value.Finex);
+
+                var tMission = {
+                    id: value.ID,
+                    description: value.Description,
+                    location: value.Location,
+                    subject: value.Name,
+                    calendar: "My Missions",
+                    start: tComex,
+                    end: tFinex
+                }
+
+                missions.push(tMission);
+            });
+
+            // prepare the data
+            var source =
+            {
+                dataType: "array",
+                dataFields: [
+                    { name: 'id', type: 'string' },
+                    { name: 'description', type: 'string' },
+                    { name: 'location', type: 'string' },
+                    { name: 'subject', type: 'string' },
+                    { name: 'calendar', type: 'string' },
+                    { name: 'start', type: 'date' },
+                    { name: 'end', type: 'date' }
+                ],
+                id: 'id',
+                localData: missions
+            };
+            var adapter = new $.jqx.dataAdapter(source);
+
+            //date: new $.jqx.date('todayDate')
+            //date: new $.jqx.date(2015, 4, 15)
+            $("#scheduler").jqxScheduler({
+                date: new $.jqx.date('todayDate'),
+                width: 850,
+                height: 600,
+                source: adapter,
+                showLegend: false,
+                theme: 'dark',
+                ready: function () {
+                    $("#scheduler").jqxScheduler('scrollTop', 200);
+                },
+                appointmentDataFields:
+                {
+                    from: "start",
+                    to: "end",
+                    id: "id",
+                    description: "description",
+                    location: "location",
+                    subject: "subject",
+                    resourceId: "calendar"
+                },
+                view: 'dayView',
+                views:
+                        [
+                            'dayView',
+                            'weekView',
+                            'monthView'
+                        ]
+            });
+            //alert($.jqx.date(2015, 4, 15, 20, 50, 0, 0));
+        }
+
+        function setupCurrentMissions(missionsData) {
+
+            var lstMissions = document.getElementById("missions");
+
+            var items = [];
+            $.each( missionsData, function( index, value ) {
+
+                var  uriVal = 'mission.html?name=' + value.Name  + '&ID=' + value.ID ;
+
+                var liTag = document.createElement("li");
+                var aTag = document.createElement("a");
+                aTag.className += " participantNames";
+
+                aTag.setAttribute('href',uriVal);
+                aTag.innerHTML = value.Name + " Mission";
+
+                liTag.appendChild( aTag );
+                lstMissions.appendChild(liTag);
+
+            } );
+        }
+
+        function parseJsonDate(jsonDateString){
+            return new Date(parseInt(jsonDateString.replace('/Date(', '')));
+        }
+
+    </script>
+
+</head>
+<body class="default" style="background-image: url('img/backgroundImage.png'); background-repeat: no-repeat; background-attachment: fixed; background-position: left;">
+    <!-- Header -->
+    <div style="background-color: #0a0a0a; padding: 0; height: 30px; text-align: center; width: 100%">
+        <div style="text-align: center; width: 1100px; margin: 0 auto; padding-left: 20px">
+            <div id="siteLogo" style="height: 30px; width: 150px; float: left">
+                <p style="color: #FFFFFF; font-size: large; font-weight: bold">MissionKeeper.tv</p>
+            </div>
+
+            <!-- <div id="audioVideoControls" style="height: 30px; vertical-align: middle; width: 800px;">
+                <img src="img/MuteIcon.png" height="15" width="15">&nbsp;
+                <img src="img/VideoChatIcon.png" height="15" width="15">&nbsp;
+                <img src="img/ShareDesktopIcon.png" height="15" width="15">&nbsp;
+                <img src="img/MissionArchive.png" height="15" width="15">&nbsp;
+                <img src="img/Ellipses.png" height="20" width="15">
+            </div> -->
+
+            <div id="siteSettingsButtons" style="vertical-align: middle; float: right;">
+                <div style="vertical-align: middle; float: right;">
+                    <img src="img/FullscreenIcon.png" height="15" width="15" onclick="makeFullScreen();">&nbsp;&nbsp;
+                </div>
+                <div style="vertical-align: middle; float: right; margin-right: 10px; padding-top: 2px;">
+                    <input type="button" value="Sign Out" id='logoutButton' />&nbsp;&nbsp;
+                </div>
+                <div style="vertical-align: middle; float: right;">
+                    <img src="img/SchedulerIcon.png" height="15" width="15" onclick="openSchedulerPanel();">&nbsp;&nbsp;
+                    <img src="img/SettingsIcon.png" id="settingsButton" height="15" width="15">&nbsp;&nbsp; <!--  onclick="toggleSettingsPopup();" -->
+
+                    <script type="text/javascript">
+                        $("#logoutButton").jqxButton({ width: 120, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
+
+                        $("#logoutButton").on('click', function ()
+                        {
+                            alert("wowSignOut");
+                        });
+
+                        function openSchedulerPanel() {
+                            alert("wow6");
+                        }
+
+                        function makeFullScreen() {
+                            alert("wow8");
+                        }
+
+
+                    </script>
+                </div>
+            </div>
+
+            <div id="popover" style="background-color: #0a0a0a; color: white;">
+                <div id="movies">
+                    <input type="button" value="Account Settings" id='accountSettingsButton' />
+                    <br /><br />
+                    <input type="button" value="MissionKeeper Settings" id='missionKeeperSettingsButton' />
+                    <script type="text/javascript">
+                        $("#accountSettingsButton").jqxButton({ width: '200', height: '25', theme: 'dark'});
+                        $("#missionKeeperSettingsButton").jqxButton({ width: '200', height: '25', theme: 'dark'});
+                    </script>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Body  -->
+    <div style="width: 100%; ">
+        <!-- Body  -->
+        <div style="width: 1100px; margin: 0 auto; padding-top: 20px;">
+                <div class="textPanelContainer">
+                    <div id="missions" class="textPanel">
+                        <span class="headerMissions">Active Missions</span>
+                    </div>
+                    <div id="startMissionNow" class="textPanel" style="text-align: center; height: 100px;">
+                        <p style="color: white">Start a New Mission</p>
+                        <input type="button" value="NOW!" id='MissionNowButton' />
+
+                        <script type="text/javascript">
+                            $("#MissionNowButton").jqxButton({ width: '150', height: '25', theme: 'dark'});
+
+                            $('#MissionNowButton').on('click', function (event) {
+                                alert('Button is Clicked');
+                            });
+                        </script>
+                    </div>
+                    <div class="textPanel">
+                        <span style="color: white">
+                            Blah
+                        </span>
+                    </div>
+                </div>
+                <div id="scheduler" class="schedulePanel">
+                </div>
+        </div>
+    </div>
+
+    <!-- Modal Login Dialog -->
+    <div id='jqxwindow' class="modalLogin" style="width: 250px; height: 150px;">
+        <div>
+            Login to MissionKeeper
+        </div>
+        <div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#textbox_Username").jqxInput({placeHolder: "Username", height: 25, width: 200, minLength: 1});
+                    $("#textbox_Password").jqxInput({placeHolder: "Password", height: 25, width: 200, minLength: 1});
+                });
+            </script>
+            <br />
+            <p>Enter your credentials below:</p>
+            <br/>
+            <br/>
+            <select style="width: 200px; background-color: white; border-csolor: white; border-width: 2px; border-style: solid;">
+                <option value="Pilot">Pilot</option>
+                <option value="Flight Director">Flight Director</option>
+                <option value="Ground Crew">Ground Crew</option>
+            </select>
+            <br/>
+            <input type="text" id="textbox_Username" style="width: 200px; height: 25px" />
+            <br />
+            <input type="password" id="textbox_Password" />
+            <br />
+            <div style="float: right; padding-right: 15px">
+                <input type="button" value="Yes" id="button_input"/>
+                <input type="button" value="No" id="button_no"/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

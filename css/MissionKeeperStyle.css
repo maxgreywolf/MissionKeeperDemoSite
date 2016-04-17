@@ -1,0 +1,223 @@
+@charset "UTF-8";
+
+.background {
+    width: 100%;
+    height: 100%;
+}
+
+#contentContainer {
+    width: 100%;
+    height: 100%;
+}
+
+#dockContainer {
+    position: absolute;
+    top: 40px;
+    left: 1400px;
+    z-index: 10;
+}
+
+#videoPlayerContainer {
+
+}
+
+/*  position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 240px; */
+
+#videoChatContainer {
+    position: absolute;
+    text-align: center;
+    top: 40px;
+    left: 350px;
+    z-index: 11;
+}
+
+.talkingHead {
+    width: 110px;
+    height: 110px;
+    float: left;
+    margin-right: 10px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    background-color: #5b697a;
+}
+
+#textChatSubmit {
+    width: 40px;
+}
+
+.listHeader {
+    background-color: #0c4d78;
+    height: 23px;
+    font-size: .7em;
+    font-weight: bold;
+    padding-left: 8px;
+    padding-top: 4px;
+    color: white;
+}
+
+.listSubHeader {
+    background-color: #1a237e;
+    height: 20px;
+    font-size: .65em;
+    font-weight: bold;
+    padding-left: 8px;
+    padding-top: 2px;
+    color: white;
+}
+
+#chatEntry {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.OT_mini {
+    float: left;
+    margin: 100px;
+}
+
+.OT_bar {
+    padding-right: 10px;
+}
+
+.chatterNameContainer {
+    font-size: small;
+    font-weight: bold;
+    color: #0c0c0c;
+    width: 180px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.chatterContainer {
+    font-size: x-small;
+    color: white;
+    width: 180px;
+    padding-left: 18px;
+}
+
+.chatText {
+    font-size: smaller;
+    color: white;
+    padding-left: 8px;
+    margin: 0;
+}
+
+.chatterName {
+    font-size: small;
+    font-weight: bold;
+    color: #0a73a7;
+    padding: 0;
+    margin: 0;
+}
+
+.textPanelContainer {
+    width: 220px;
+    height: 800px;
+    float: left;
+}
+
+.textPanel {
+    border-radius: 10px;
+    background-color: #0c0c0c;
+    margin-bottom: 10px;;
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    text-align: center;
+}
+
+.indexPanel {
+    margin-top: 40px;
+    margin-left: -10px;
+    margin-right: 20px;
+}
+
+.schedulePanel {
+    width: 800px;
+    height: 900px;
+    float: right;
+}
+
+#missions {
+    color: white;
+}
+
+.modalLogin {
+    width: 150px;
+    height: 150px;
+    z-index: 10;
+}
+
+.headerMissions {
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    width: 100%;
+}
+
+.paraRow {
+    width: 100%;
+}
+
+.paraName {
+    color: white;
+    font-size: smaller;
+    font-weight: normal;
+    float: left;
+    vertical-align: middle;
+    padding-left: 40px;
+}
+
+.paraButtons {
+    width: 18px;
+    height: 15px;
+    float: right;
+    vertical-align: middle;
+    padding-right: 4px;
+}
+
+/*  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/*  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* CSS for fixed-fluid layout */
+
+.fixedGrid {
+    width: 240px;  /* the fixed width required */
+    float: left;
+}
+
+.fixedGrid + div {
+    margin-left: 240px;  /* must match the fixed width in the .fixed class */
+    overflow: hidden;
+}
+
+/* CSS to ensure sidebar and content are same height (optional) */
+
+html, body {
+    height: 100%;
+}
+
+.fillGrid {
+    min-height: 100%;
+    position: relative;
+}
+
+.fillGrid:after{
+    background-color:inherit;
+    bottom: 0;
+    content: "";
+    height: auto;
+    min-height: 100%;
+    left: 0;
+    margin:inherit;
+    right: 0;
+    position: absolute;
+    top: 0;
+    width: inherit;
+    z-index: -1;
+}
