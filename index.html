@@ -93,6 +93,7 @@
 
             }
 
+            // Login/Logout Buttons
             $("#button_input").click(function () {
 
                 var tUserName = $("#textbox_Username").val();
@@ -101,8 +102,10 @@
                 var tRoleName = "Pilot";
                 sessionStorage.setItem("roleName",  tRoleName );
 
-                $("#logoutButton").text("Sign Out (" + tUserName + ")");
-                $("#logoutButton").jqxButton({ width: 240, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
+                var logoutButtonLabel = "Sign Out (" + tUserName + ")";
+                //$("#logoutButton").text("Sign Out (" + tUserName + ")");
+                $("#logoutButton").jqxButton({value: logoutButtonLabel});
+                $("#logoutButton").jqxButton({ width: 254, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
 
                 $("#jqxwindow").jqxWindow('close');
             });
