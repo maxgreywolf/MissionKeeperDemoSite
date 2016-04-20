@@ -38,6 +38,7 @@
     <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxtextarea.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxpopover.js"></script>
 
     <!-- Google Maps Javascript  -->
 
@@ -54,6 +55,8 @@
             $('#docking').jqxDocking('showCollapseButton', 'window1');
             $('#docking').jqxDocking('showCollapseButton', 'window2');
             $('#docking').jqxDocking('showCollapseButton', 'window3');
+
+            $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
         });
     </script>
     <script type="text/javascript">
@@ -68,8 +71,6 @@
 
 
             $('#dockingVideoChat').jqxDocking('showCollapseButton', 'window5');
-
-            //$("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
 
         });
     </script>
@@ -101,7 +102,7 @@
 
         <div id="siteSettingsButtons" style="height: 30px; width: 180px; vertical-align: middle; float: right; text-align: right; padding-right: 20px;">
             <img src="img/SchedulerIcon.png" height="15" width="15" onclick="openSchedulerPanel();">&nbsp;&nbsp;
-            <img src="img/SettingsIcon.png" height="15" width="15" onclick="toggleSettingsPopup();">&nbsp;&nbsp;
+            <img src="img/SettingsIcon.png" height="15" width="15" id="settingsButton">&nbsp;&nbsp;
             <img src="img/FullscreenIcon.png" height="15" width="15" onclick="makeFullScreen();">
         </div>
 
@@ -117,14 +118,15 @@
                 //
                 // The last parameter assumes you are using the latest version (version 2)
                 // of the OpenTok Chrome extension source code.
-                OT.registerScreenSharingExtension('chrome', '<YOUR_CHROME_EXTENSION_ID>', 2);
+                /* OT.registerScreenSharingExtension('chrome', '<YOUR_CHROME_EXTENSION_ID>', 2);
 
 
                 var desktopPub = OT.initPublisher('camera');
                 session.publish(desktopPub, function() {
                     screenshare();
-                });
+                }); */
 
+                alert("wow2");
             }
 
             function loadStreamArchive() {
@@ -152,7 +154,7 @@
             }
         </script>
 
-        <!--<div id="popover" style="background-color: #0a0a0a; color: white;">
+        <div id="popover" style="background-color: #0a0a0a; color: white;">
             <div id="movies">
                 <input type="button" value="Account Settings" id='accountSettingsButton' />
                 <br /><br />
@@ -162,7 +164,7 @@
                     $("#missionKeeperSettingsButton").jqxButton({ width: '200', height: '25', theme: 'dark'});
                 </script>
             </div>
-        </div>-->
+        </div>
 
     </div>
 
@@ -171,7 +173,7 @@
         <div class="row-fluid">
             <!-- AudioVideo Chat Controls SideBar  -->
             <div class="fixedGrid">
-                <div style="width: 100%; height: 100%; background-color: #0a0a0a;">
+                <div style="width: 100%; height: 100%; background-color: #262626;">
                     <div id="videoChatParticipantsContainer">
                         <div id="attendeesHeader" class="listHeader">
                             Attendees
@@ -179,13 +181,13 @@
                         <div id="participantsHeader" class="listSubHeader">
                             Participants
                         </div>
-                        <div id="participantsList" class="scrollbar-9" style="background-color: #0a0a0a; overflow-y: auto; height: 200px; padding-top: 8px">
+                        <div id="participantsList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 200px; padding-top: 8px">
 
                         </div>
                         <div id="observersHeader" class="listSubHeader">
                             Observers
                         </div>
-                        <div id="observersList" class="scrollbar-9" style="background-color: #0a0a0a; overflow-y: auto; height: 120px">
+                        <div id="observersList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 120px">
 
                         </div>
                     </div>
@@ -193,7 +195,7 @@
                         <div id="chatHeader" class="listHeader">
                             Chat
                         </div>
-                        <div id="chatList" class="scrollbar-9" style="background-color: #0a0a0a; overflow-y: auto; height: 300px; padding-left: 10px; padding-top: 8px; margin: 0">
+                        <div id="chatList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 300px; padding-left: 10px; padding-top: 8px; margin: 0">
 
                         </div>
                         <div id="chatEntry" style="text-align: center">
@@ -242,7 +244,7 @@
                                         <div id="map" style="border:0; vertical-align: middle; text-align: center; width: 150px; height: 450px; overflow: visible;">
                                             <!--  async defer -->
                                             <script async defer
-                                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRl0RJms6XMDz3Bpfg0NKu0UnSAGBN_g8&libraries=visualization&callback=initMap">
+                                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRl0RJms6XMDz3Bpfg0NKu0UnSAGBN_g8&libraries=visualization&callback=initMap">
                                             </script>
                                         </div>
                                     </div>
@@ -252,7 +254,7 @@
                                         </div>
                                         <div style="padding: 0; width: 100%; height: 360px;">
                                             <div style="padding: 0">
-                                                <img src="img/WeatherMap_nonAnim.png" width="250">
+                                                <img src="img/DkZ4j5.gif" width="250">
                                             </div>
                                             <div style="padding: 0; width: 100%; height: 30px; background-color: black">
                                                 <p>Weather Station Data</p>
@@ -319,7 +321,7 @@
             /* Telemetry timer */
             var telemetryTimer;
             var timerFired = 0;
-            var timerInterval = 30000;
+            var timerInterval = 6000;
             var flightPath;
 
 
@@ -487,16 +489,15 @@
 
                     // Create a Div
                     var paraButtons = document.createElement("div");
+                    //paraButtons.className += " paraButtonsDiv";
                     var dropButton = document.createElement("img");
                     dropButton.setAttribute('src', 'img/disableChatIcon.png');
                     dropButton.className += " paraButtons";
-                    var imgSpace = document.createTextNode("&nbsp");
-                    //var imgSpace2 = document.createTextNode("&nbsp");
                     var muteButton = document.createElement("img");
                     muteButton.setAttribute('src', 'img/participantsMuteIcon.png');
                     muteButton.className += " paraButtons";
                     paraButtons.appendChild(dropButton);
-                    paraButtons.appendChild(imgSpace);
+                    //paraButtons.appendChild(imgSpace);
                     //paraButtons.appendChild(imgSpace2);
                     paraButtons.appendChild(muteButton);
 
@@ -698,7 +699,7 @@
                     controls: false,
                     autoplay: true,
                     logo: { enabled: false }
-                }
+                };
                 myPlayer = amp("azuremediaplayer", myOptions);
                 myPlayer.src([
                     {
@@ -749,16 +750,18 @@
                     // Build URI to get JSON from
                     var uriStreamTelemetry = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID + "/stream/" + streamID + "/flightpath/" + elapsedTime;
 
+                    console.log("Updating Telemerty : " +  elapsedTime);
+
                     //Get JSON telemetry and call new timer
                     $.getJSON(uriStreamTelemetry, function (telemData) {
 
-                        if(telemData.length > 0 && map != null) {
+                        if(telemData.length > 0 ) {
 
                             updateMap(telemData);
 
                             var telem = telemData[telemData.length - 1];
 
-                            map.setCenter(telem, 12);
+
                         }
                     });
 
@@ -770,16 +773,29 @@
                         flightPath.setMap(null);
                     }
 
-                    // loop through json and find telemdata for cooresponding video count
-                    flightPath = new google.maps.Polyline({
-                        path: telemData,
-                        strokeColor: '#FF0000',
-                        strokeOpacity: 1.0,
-                        strokeWeight: 3,
-                        map: map
-                    });
+                    lastTelem =  telemData[ telemData.length - 1 ];
 
-                    flightPath.setMap(map);
+                    if( map != null ) {
+
+                        // loop through json and find telemdata for cooresponding video count
+                        flightPath = new google.maps.Polyline({
+                            path: telemData,
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 3,
+                            map: map
+                        });
+
+                        flightPath.setMap(map);
+
+                        map.setCenter(lastTelem, map.zoom);
+
+                        console.log( "Center Map :" + lastTelem.lat + "-" + lastTelem.lng );
+                    }
+                    else {
+
+                        initMap2(lastTelem.lat, lastTelem.lng);
+                    }
                 }
 
             }
@@ -787,11 +803,22 @@
             function initMap(){
 
                 map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 14,
+                    zoom: 12,
                     center: {lat:36.586246, lng:-79.391800},
                     mapTypeId: google.maps.MapTypeId.SATELLITE
                 });
             }
+
+            function initMap2(lat, lng) {
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 12,
+                    center: {lat: lat, lng:  lng},
+                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                });
+
+            }
+
 
         </script>
     </div>

@@ -70,11 +70,6 @@
     color: white;
 }
 
-#chatEntry {
-    padding-right: 5px;
-    padding-left: 5px;
-}
-
 .OT_mini {
     float: left;
     margin: 100px;
@@ -180,6 +175,10 @@
     float: right;
     vertical-align: middle;
     padding-right: 4px;
+}
+
+.paraButtonsDiv {
+    padding-right: 5px;
 }
 
 /*  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
