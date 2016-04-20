@@ -220,3 +220,8 @@ html, body {
     width: inherit;
     z-index: -1;
 }
+
+.videoContainer {
+    width: 100%;
+    height: auto;
+}

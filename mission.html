@@ -217,13 +217,14 @@
 
             <!-- Main Content Container -->
             <div class="hero-unit fillerGrid">
-                    <div id="videoPlayerContainer">
+                <div class="videoContainer" id='myElement'>Loading the player...</div>
+                    <!--<div id="videoPlayerContainer">
                         <video id="azuremediaplayer" class="azuremediaplayer amp-default-skin amp-big-play-centered" tabindex="0" width="auto" height="837px"></video>
-                        <!-- <video width="320" height="240" controls>
+                        &lt;!&ndash; <video width="320" height="240" controls>
                             <source src="https://cdn.liveleak.com/80281E/ll_a_s/2016/Apr/14/LiveLeak-dot-com-312_1460679081-VdeomostramomentoemquefuncionriodaTemTud_1460679074.mp4.h264_720p.mp4?d5e8cc8eccfb6039332f41f6249e92b06c91b4db65f5e99818bdd1964a44d9d28309&ec_rate=230&ec_seek=0" type="video/webm">
                             Your browser does not support the video tag.
-                        </video> -->
-                    </div>
+                        </video> &ndash;&gt;
+                    </div>-->
                     <div id="dockContainer">
                         <!-- Docking Widget - Start -->
                         <div id='jqxWidgetDock'>
@@ -239,12 +240,12 @@
                                     </div>
                                     <div id="window1" style="height: 300px">
                                         <div>
-                                            MAP
+                                            <p id="mapPanelHeader">MAP</p>
                                         </div>
                                         <div id="map" style="border:0; vertical-align: middle; text-align: center; width: 150px; height: 450px; overflow: visible;">
-                                            <!--  async defer -->
+                                            <!--  async defer &callback=initMap -->
                                             <script async defer
-                                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRl0RJms6XMDz3Bpfg0NKu0UnSAGBN_g8&libraries=visualization&callback=initMap">
+                                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRl0RJms6XMDz3Bpfg0NKu0UnSAGBN_g8&libraries=visualization">
                                             </script>
                                         </div>
                                     </div>
@@ -323,7 +324,6 @@
             var timerFired = 0;
             var timerInterval = 6000;
             var flightPath;
-
 
             document.title = missionName + ' Mission (' + missionID + ')';
 
@@ -497,7 +497,8 @@
                     muteButton.setAttribute('src', 'img/participantsMuteIcon.png');
                     muteButton.className += " paraButtons";
                     paraButtons.appendChild(dropButton);
-                    //paraButtons.appendChild(imgSpace);
+                    var imgSpace = document.createTextNode("    ");
+                    paraButtons.appendChild(imgSpace);
                     //paraButtons.appendChild(imgSpace2);
                     paraButtons.appendChild(muteButton);
 
@@ -694,19 +695,28 @@
 
             function setupPlayer(streamData) {
 
-                var myOptions = {
-                    "nativeControlsForTouch": false,
-                    controls: false,
-                    autoplay: true,
-                    logo: { enabled: false }
-                };
-                myPlayer = amp("azuremediaplayer", myOptions);
-                myPlayer.src([
-                    {
-                        "src": streamData.VideoURI,
-                        "type": "video/mp4"
-                    }
-                ]);
+
+                /*   This is the code for the AzureMedia Player (AMP)
+                *
+                    var myOptions = {
+                        "nativeControlsForTouch": false,
+                        controls: false,
+                        autoplay: true,
+                        logo: { enabled: false }
+                    };
+                    myPlayer = amp("azuremediaplayer", myOptions);
+                    myPlayer.src([
+                        {
+                            "src": streamData.VideoURI,
+                            "type": "video/mp4"
+                        }
+                    ]);
+                */
+                /*  This is the code for the jwplayer D0gMpfYS4+zwogqhtfmcPYRwXgcduLHyfSMsnysJlP4= */
+                jwplayer.key = "D0gMpfYS4+zwogqhtfmcPYRwXgcduLHyfSMsnysJlP4=";
+                jwplayer("myElement").setup({
+                        "file": streamData.VideoURI,
+                        "image": streamData.ThumbnailURI});
             }
 
 
@@ -733,22 +743,28 @@
 
                 function elapsedTime() {
 
-                    var rtnTime = timerFired / 1000;
+
                     // Get video count Extra comment
                     //var vPlayer = document.getElementById('azuremediaplayer');
                     //var currTimeCode = vPlayer.player.mediaplayer.currentAbsoluteTime();
 
 
-                    timerFired += timerInterval;
+                /*  This code was used with the Azure Media Player (AMP).   It was necessary
+                 *  to use a timer because the AMP did not behave as indicated in the documentation
+                 *  in so far as it failed to return the position time when called.
+                 *
+                 *   var rtnTime = timerFired / 1000;
+                 *   timerFired += timerInterval;
+                 *   return rtnTime;
+                 */
 
-                    return rtnTime;
-
+                    return jwplayer("myElement").getPosition();
                 }
 
                 function updateTelemetry( elapsedTime ){
 
                     // Build URI to get JSON from
-                    var uriStreamTelemetry = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID + "/stream/" + streamID + "/flightpath/" + elapsedTime;
+                    var uriStreamTelemetry = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID + "/stream/" + streamID + "/flightpath/" + elapsedTime + "/";
 
                     console.log("Updating Telemerty : " +  elapsedTime);
 
@@ -786,14 +802,20 @@
                             map: map
                         });
 
+
+
                         flightPath.setMap(map);
 
                         map.setCenter(lastTelem, map.zoom);
 
-                        console.log( "Center Map :" + lastTelem.lat + "-" + lastTelem.lng );
+                        var latLong = "[" + lastTelem.lat + "," + lastTelem.lng + "]";
+                        var mapHeaderText = document.getElementById('mapPanelHeader');
+                        mapHeaderText.innerHTML =  "MAP " + latLong;
+
+
+                        console.log( "Center Map : " + lastTelem.lat + "," + lastTelem.lng );
                     }
                     else {
-
                         initMap2(lastTelem.lat, lastTelem.lng);
                     }
                 }
@@ -812,9 +834,20 @@
             function initMap2(lat, lng) {
 
                 map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 12,
+                    zoom: 16,
                     center: {lat: lat, lng:  lng},
                     mapTypeId: google.maps.MapTypeId.SATELLITE
+                });
+
+                var image = 'img/flag-green-icon.png';
+
+
+                // placeMarker at take-off point
+                var marker = new google.maps.Marker({
+                    position: {lat: lat, lng:  lng},
+                    map: map,
+                    title: 'Mission Origin',
+                    icon: image
                 });
 
             }
