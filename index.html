@@ -94,6 +94,8 @@
             }
 
             // Login/Logout Buttons
+            $("#button_input").jqxButton({ width: 40, height: 30, theme: 'dark' });
+            $("#button_no").jqxButton({ width: 40, height: 30, theme: 'dark' });
             $("#button_input").click(function () {
 
                 var tUserName = $("#textbox_Username").val();
@@ -329,7 +331,7 @@
             <p>Enter your credentials below:</p>
             <br/>
             <br/>
-            <select style="width: 200px; background-color: white; border-csolor: white; border-width: 2px; border-style: solid;">
+            <select id="roleSelection" style="width: 200px; background-color: white; border-color: white; border-width: 2px; border-style: solid;">
                 <option value="Pilot">Pilot</option>
                 <option value="Flight Director">Flight Director</option>
                 <option value="Ground Crew">Ground Crew</option>

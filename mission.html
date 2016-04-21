@@ -39,6 +39,7 @@
     <script type="text/javascript" src="jqwidgets/jqxtextarea.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxpopover.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
 
     <!-- Google Maps Javascript  -->
 
@@ -57,21 +58,21 @@
             $('#docking').jqxDocking('showCollapseButton', 'window3');
 
             $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
+
+
         });
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
 
-          $('#dockingVideoChat').jqxDocking( {
+            $('#dockingVideoChat').jqxDocking( {
                 orientation : 'vertical',
                 width: 600,
                 mode: 'default',
                 theme: 'dark'
             } );
 
-
             $('#dockingVideoChat').jqxDocking('showCollapseButton', 'window5');
-
         });
     </script>
     <script type="text/javascript">
@@ -155,7 +156,7 @@
         </script>
 
         <div id="popover" style="background-color: #0a0a0a; color: white;">
-            <div id="movies">
+            <div id="settings">
                 <input type="button" value="Account Settings" id='accountSettingsButton' />
                 <br /><br />
                 <input type="button" value="MissionKeeper Settings" id='missionKeeperSettingsButton' />
@@ -175,8 +176,16 @@
             <div class="fixedGrid">
                 <div style="width: 100%; height: 100%; background-color: #262626;">
                     <div id="videoChatParticipantsContainer">
+                        <div id="inviteParticipationPopover">
+                            <div style="padding-bottom: 5px">
+                                <input style="float: left; margin-bottom: 8px" type="text" id="InviteName"/>&nbsp;&nbsp;
+                                <input style="float: right; margin-bottom: 8px" type="text" id="InviteRole"/><br/>
+                                <input style="float: left; margin-bottom: 10px" type="text" id="InviteEmail"/>&nbsp;&nbsp;
+                                <input style="float: right; margin-bottom: 10px"  type="button" value="Go" id='inviteButton' />
+                            </div>
+                        </div>
                         <div id="attendeesHeader" class="listHeader">
-                            Attendees
+                            <p style="float: left;">Attendees</p><img id="InviteAttendees" style="float: right; margin-right: 5px;" src="img/AddParticipantIcon.png" height="18" width="22"">
                         </div>
                         <div id="participantsHeader" class="listSubHeader">
                             Participants
@@ -206,7 +215,7 @@
 
                             <!-- Chat Text Entry Javascript -->
                             <script type="text/javascript">
-                                $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 90, width: 200, minLength: 1, theme: 'dark', scrollBarSize: 2});
+                                $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 90, width: 200, minLength: 1, scrollBarSize: 2});
 
                                 $("#btnSignal").jqxButton({ theme: 'dark', width: '150', height: '25'});
                             </script>
@@ -216,7 +225,7 @@
             </div>
 
             <!-- Main Content Container -->
-            <div class="hero-unit fillerGrid">
+            <div> <!-- class="hero-unit fillerGrid"> -->
                 <div class="videoContainer" id='myElement'>Loading the player...</div>
                     <!--<div id="videoPlayerContainer">
                         <video id="azuremediaplayer" class="azuremediaplayer amp-default-skin amp-big-play-centered" tabindex="0" width="auto" height="837px"></video>
@@ -353,6 +362,8 @@
                         }
                     }
 
+                    setupInvite(missionData.Roles);
+
                     $.getJSON(uriToken, function (tokenData) {
 
                             if(!tokenData) {
@@ -395,7 +406,7 @@
 
                     // Create a Div for each stream
                     var streamDiv = document.createElement("div");
-                    streamDiv.setAttribute("data-streamID", tStream.StreamID )
+                    streamDiv.setAttribute("data-streamID", tStream.StreamID );
 
                     streamDiv.className += " paraName";
 
@@ -408,7 +419,7 @@
                     streamDiv.appendChild(platformNode);
 
                     // Add the Thumbnail Image Node..
-                    var thumbNode = document.createElement("img")
+                    var thumbNode = document.createElement("img");
 
                     thumbNode.setAttribute("src", tStream.ThumbnailURI );
 
@@ -420,6 +431,38 @@
 
                     streamsElement.appendChild(  streamDiv );
                 }
+            }
+
+            function setupInvite( inviteRoles ) {
+
+                // Invite new attendees  popup
+                $("#inviteParticipationPopover").jqxPopover({offset: {left: 5, top:40}, arrowOffsetValue: -240, position: "right", theme: "dark", title: "Invite Someone to This Mission", showCloseButton: true, selector: $("#InviteAttendees") });
+                $("#InviteName").jqxInput({placeHolder: "Invitee Name", height: 25, width: 150, minLength: 1});
+                $("#InviteRole").jqxInput({placeHolder: "Invitee Role", height: 25, width: 120, minLength: 1, searchMode: 'containsignorecase', source: inviteRoles});
+                $("#InviteEmail").jqxInput({placeHolder: "Enter email address", height: 25, width: 250, minLength: 1});//,  source: countries
+                $("#inviteButton").jqxButton({ width: 25, height: 25, theme: 'dark' });
+
+                $("#inviteButton").click(function () {
+
+                    var inviteName = document.getElementById('InviteName');
+                    var inviteRole = document.getElementById('InviteRole');
+                    var inviteEmail = document.getElementById('InviteEmail');
+                    // Build URI to get JSON from
+                    var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID + "/username/" + inviteName.value + "/role/" + inviteRole.value + "/email/" + inviteEmail.value + "/";
+
+                    //Get JSON telemetry and call new timer
+                    $.getJSON(uriInviteEmail, function (result) {
+                        console.log("Invitation : " + result);
+                    });
+
+                    inviteName.value = "";
+                    inviteRole.value = "";
+                    inviteEmail.value = "";
+
+                    $('#inviteParticipationPopover').jqxPopover('close');
+
+                });
+
             }
 
             function  setupSession( apikey, sessionid, token ) {
@@ -715,8 +758,12 @@
                 /*  This is the code for the jwplayer D0gMpfYS4+zwogqhtfmcPYRwXgcduLHyfSMsnysJlP4= */
                 jwplayer.key = "D0gMpfYS4+zwogqhtfmcPYRwXgcduLHyfSMsnysJlP4=";
                 jwplayer("myElement").setup({
-                        "file": streamData.VideoURI,
-                        "image": streamData.ThumbnailURI});
+                    file: streamData.VideoURI,
+                    image: streamData.ThumbnailURI,
+                    width: "100%",
+                    aspectratio: "16:9",
+                    autostart: 'true',
+                    controlbar: 'none'});
             }
 
 
@@ -775,8 +822,8 @@
 
                             updateMap(telemData);
 
-                            var telem = telemData[telemData.length - 1];
-
+                            var telemItem = telemData[telemData.length - 1];
+                            UpdateLocaltime(telemItem);
 
                         }
                     });
@@ -851,6 +898,13 @@
                 });
 
             }
+
+            function UpdateLocaltime(telemItem) {
+                var  localTime = telemItem.LocalTime;
+                console.log("Logal Time : " + localTime );
+            }
+
+
 
 
         </script>
