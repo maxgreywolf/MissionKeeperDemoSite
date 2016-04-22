@@ -48,6 +48,7 @@
     <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxnumberinput.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxradiobutton.js"></script>
+    <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-demo/jqwidgets/jqxcombobox.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
     <script type="text/javascript" src="jqwidgets/globalization/globalize.js"></script>
     <script type="text/javascript" src="jqwidgets/globalization/globalize.culture.de-DE.js"></script>
@@ -55,14 +56,18 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            var source =
+            /*var source =
             {
                 dataType: 'ics',
                 url: 'sampledata/icalendar.txt'
             };
-            var adapter = new $.jqx.dataAdapter(source);
+            var adapter = new $.jqx.dataAdapter(source);*/
 
             $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
+
+            var roleSource = new Array("Pilot", "Crew Chief", "Flight Chief");
+
+            //$("#RolesDropdown").jqxComboBox({ source: roleSource, selectedIndex: 0, width: '200', height: '25px', theme: 'dark', placeHolder: "Enter text"})
 
         });
     </script>
@@ -87,7 +92,7 @@
             var tUserName = sessionStorage.getItem( "username" );
             if( tUserName == null  ) {
 
-                $("#jqxwindow").jqxWindow({height: 300, width: 250, theme: 'dark', isModal: true, autoOpen: true});
+                $("#jqxwindow").jqxWindow({height: 220, width: 250, theme: 'dark', isModal: true, autoOpen: true});
                 $("#jqxwindow").jqxWindow('open');
 
             }
@@ -102,11 +107,13 @@
 
                 var tRoleName = "Pilot";
                 sessionStorage.setItem("roleName",  tRoleName );
+                var usernameLength = tUserName.length;
+                var logoutButtonWidth = 95 + (usernameLength * 8);
 
-                var logoutButtonLabel = "Sign Out (" + tUserName + ")";
+                var logoutButtonLabel = "  Sign Out (" + tUserName + ")";
 
                 $("#logoutButton").jqxButton({value: logoutButtonLabel});
-                $("#logoutButton").jqxButton({ width: 254, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
+                $("#logoutButton").jqxButton({ width: logoutButtonWidth, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
 
                 $("#jqxwindow").jqxWindow('close');
             });
@@ -114,6 +121,13 @@
                 alert("Invalid Login");
             });
         });
+
+        function DisplayNewMission() {
+
+            var uriVal = 'mission.html?name=' + 'NOW Mission' + '&ID=' + 'a0914d13-797e-49e1-9500-68553b61749e';
+            window.location= uriVal ;
+        }
+
     </script>
 
     <script>
@@ -144,18 +158,22 @@
                         break;
                 }
 
-                var tMission = {
-                    id: value.ID,
-                    description: value.Description,
-                    location: value.Location,
-                    subject: value.Name,
-                    calendar: "My Missions",
-                    start: tComex,
-                    end: tFinex,
-                    background: tBkgrdColor
-                };
+                if ( ! value.IsHidden) {
 
-                missions.push(tMission);
+                    var tMission = {
+                        id: value.ID,
+                        description: value.Description,
+                        location: value.Location,
+                        subject: value.Name,
+                        calendar: "My Missions",
+                        start: tComex,
+                        end: tFinex,
+                        background: tBkgrdColor
+                    };
+
+                    missions.push(tMission);
+                }
+
             });
 
             // prepare the data
@@ -207,6 +225,15 @@
                     ]
             });
 
+            $('#scheduler').on('appointmentAdd', function (event) {
+
+                var args = event.args;
+                var appointment = args.appointment;
+
+            });
+
+
+            $("#scheduler").jqxScheduler('ensureVisible',  new $.jqx.date(), missionsData[2].ID );
         }
 
         function setupCurrentMissions(missionsData) {
@@ -216,17 +243,21 @@
             var items = [];
             $.each( missionsData, function( index, value ) {
 
-                var  uriVal = 'mission.html?name=' + value.Name  + '&ID=' + value.ID ;
 
-                var liTag = document.createElement("li");
-                var aTag = document.createElement("a");
-                aTag.className += " participantNames";
+                if(! value.IsHidden ) {
 
-                aTag.setAttribute('href',uriVal);
-                aTag.innerHTML = value.Name + " Mission";
+                    var uriVal = 'mission.html?name=' + value.Name + '&ID=' + value.ID;
 
-                liTag.appendChild( aTag );
-                lstMissions.appendChild(liTag);
+                    var liTag = document.createElement("li");
+                    var aTag = document.createElement("a");
+                    aTag.className += " missionLinks";
+
+                    aTag.setAttribute('href', uriVal);
+                    aTag.innerHTML = value.Name + " Mission";
+
+                    liTag.appendChild(aTag);
+                    lstMissions.appendChild(liTag);
+                }
 
             } );
         }
@@ -255,31 +286,21 @@
             </div> -->
 
             <div id="siteSettingsButtons" style="vertical-align: middle; float: right;">
-                <div style="vertical-align: middle; float: right;">
-                    <img src="img/FullscreenIcon.png" height="15" width="15" onclick="makeFullScreen();">&nbsp;&nbsp;
-                </div>
                 <div style="vertical-align: middle; float: right; margin-right: 10px; padding-top: 2px;">
                     <input type="button" value="Sign Out" id='logoutButton' />&nbsp;&nbsp;
                 </div>
                 <div style="vertical-align: middle; float: right;">
-                    <img src="img/SchedulerIcon.png" height="15" width="15" onclick="openSchedulerPanel();">&nbsp;&nbsp;
+
                     <img src="img/SettingsIcon.png" id="settingsButton" height="15" width="15">&nbsp;&nbsp; <!--  onclick="toggleSettingsPopup();" -->
 
                     <script type="text/javascript">
-                        $("#logoutButton").jqxButton({ width: 120, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
+                        $("#logoutButton").jqxButton({ width: 85, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
 
                         $("#logoutButton").on('click', function ()
                         {
-                            alert("wowSignOut");
+                            $("#jqxwindow").jqxWindow({height: 220, width: 250, theme: 'dark', isModal: true});
+                            $("#jqxwindow").jqxWindow('open');
                         });
-
-                        function openSchedulerPanel() {
-                            alert("wow6");
-                        }
-
-                        function makeFullScreen() {
-                            alert("wow8");
-                        }
 
                     </script>
                 </div>
@@ -316,10 +337,7 @@
 
                             $('#MissionNowButton').on('click', function (event) {
 
-
-                                alert('This should pop up a dialog ... ');
-
-
+                                DisplayNewMission()
 
                             });
                         </script>
@@ -340,7 +358,7 @@
         <div>
             Login to MissionKeeper
         </div>
-        <div>
+        <div style="text-align: center; padding-left: 20px;">
             <script type="text/javascript">
                 $(document).ready(function () {
                     $("#textbox_Username").jqxInput({placeHolder: "Username", height: 25, width: 200, minLength: 1});
@@ -348,22 +366,20 @@
                 });
             </script>
             <br />
-            <p>Enter your credentials below:</p>
-            <br/>
-            <br/>
-            <select id="roleSelection" style="width: 200px; background-color: white; border-color: white; border-width: 2px; border-style: solid;">
+            <p style="width: 100%; text-align: center;">Enter your credentials below:</p>
+            <!-- <div id="RolesDropdown"></div> -->
+            <!--<select id="roleSelection" style="width: 200px; background-color: white; border-color: white; border-width: 2px; border-style: solid;">
                 <option value="Pilot">Pilot</option>
                 <option value="Flight Director">Flight Director</option>
                 <option value="Ground Crew">Ground Crew</option>
-            </select>
-            <br/>
+            </select>-->
             <input type="text" id="textbox_Username" style="width: 200px; height: 25px" />
             <br />
-            <input type="password" id="textbox_Password" />
+            <input type="password" id="textbox_Password" style="width: 200px; height: 25px" />
             <br />
-            <div style="float: right; padding-right: 15px">
-                <input type="button" value="Yes" id="button_input"/>
-                <input type="button" value="No" id="button_no"/>
+            <div style="width: 100%">
+                <input style="float: right; margin-right: 20px;" type="button" value="Yes" id="button_input"/>
+                <input style="float: right; margin-right: 5px;" type="button" value="No" id="button_no"/>
             </div>
         </div>
     </div>
