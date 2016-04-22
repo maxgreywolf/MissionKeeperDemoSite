@@ -62,7 +62,6 @@
             };
             var adapter = new $.jqx.dataAdapter(source);
 
-
             $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
 
         });
@@ -105,7 +104,7 @@
                 sessionStorage.setItem("roleName",  tRoleName );
 
                 var logoutButtonLabel = "Sign Out (" + tUserName + ")";
-                //$("#logoutButton").text("Sign Out (" + tUserName + ")");
+
                 $("#logoutButton").jqxButton({value: logoutButtonLabel});
                 $("#logoutButton").jqxButton({ width: 254, height: 25, imgPosition: "left", textPosition: "left", imgSrc: "img/signOutIcon.png", textImageRelation: "imageBeforeText", theme: "dark" });
 
@@ -119,7 +118,6 @@
 
     <script>
 
-
         function setupSchedule(missionsData) {
 
             var missions = new Array();
@@ -127,7 +125,24 @@
             $.each( missionsData, function( index, value ) {
 
                 var tComex = parseJsonDate( value.Comex );
-                var tFinex = parseJsonDate( value.Finex);
+                var tFinex = parseJsonDate( value.Finex );
+
+                var tBkgrdColor;
+
+                switch ( value.Type ) {
+                    case 0:
+                        tBkgrdColor = '#FF0000';
+                        break;
+                    case 1:
+                        tBkgrdColor = '#0000FF';
+                        break;
+                    case 2:
+                        tBkgrdColor = '#00FF00';
+                        break;
+                    case 3:
+                        tBkgrdColor = '#00F0F0';
+                        break;
+                }
 
                 var tMission = {
                     id: value.ID,
@@ -136,7 +151,8 @@
                     subject: value.Name,
                     calendar: "My Missions",
                     start: tComex,
-                    end: tFinex
+                    end: tFinex,
+                    background: tBkgrdColor
                 };
 
                 missions.push(tMission);
@@ -153,15 +169,14 @@
                     { name: 'subject', type: 'string' },
                     { name: 'calendar', type: 'string' },
                     { name: 'start', type: 'date' },
-                    { name: 'end', type: 'date' }
+                    { name: 'end', type: 'date' },
+                    { name: 'background', type: 'string' }
                 ],
                 id: 'id',
                 localData: missions
             };
             var adapter = new $.jqx.dataAdapter(source);
 
-            //date: new $.jqx.date('todayDate')
-            //date: new $.jqx.date(2015, 4, 15)
             $("#scheduler").jqxScheduler({
                 date: new $.jqx.date('todayDate'),
                 width: 850,
@@ -180,17 +195,18 @@
                     description: "description",
                     location: "location",
                     subject: "subject",
-                    resourceId: "calendar"
+                    background: "background",
+                    resourceId: "calendar",
                 },
                 view: 'dayView',
                 views:
-                        [
-                            'dayView',
-                            'weekView',
-                            'monthView'
-                        ]
+                    [
+                        'dayView',
+                        'weekView',
+                        'monthView'
+                    ]
             });
-            //alert($.jqx.date(2015, 4, 15, 20, 50, 0, 0));
+
         }
 
         function setupCurrentMissions(missionsData) {
@@ -265,7 +281,6 @@
                             alert("wow8");
                         }
 
-
                     </script>
                 </div>
             </div>
@@ -300,7 +315,12 @@
                             $("#MissionNowButton").jqxButton({ width: '150', height: '25', theme: 'dark'});
 
                             $('#MissionNowButton').on('click', function (event) {
-                                alert('Button is Clicked');
+
+
+                                alert('This should pop up a dialog ... ');
+
+
+
                             });
                         </script>
                     </div>
