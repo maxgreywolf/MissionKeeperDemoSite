@@ -40,15 +40,20 @@
     <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxpopover.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
-
-    <!-- Google Maps Javascript  -->
-
+    <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-demo/jqwidgets/jqxcombobox.js"></script>
 
     <!-- Azure Media Player -->
     <script src="//amp.azure.net/libs/amp/1.6.3/azuremediaplayer.min.js"></script>
+
     <!-- OpenTok Javascript -->
     <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+
     <script type="text/javascript">
+
+        /* Chat Combobox Array */
+        var chatTarget = new Array("Everyone");
+
         $(document).ready(function () {
             $('#docking').jqxDocking({  orientation: 'vertical', width: 250, mode: 'default', theme: 'dark' });
             $('#docking').jqxDocking('importLayout', '{"panel0": {"window0":{"collapsed":true},"window1":{"collapsed":false},"window2":{"collapsed":true},"window3":{"collapsed":true}},"orientation": "vertical"}');
@@ -58,6 +63,13 @@
             $('#docking').jqxDocking('showCollapseButton', 'window3');
 
             $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
+
+            $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 90, width: 200, minLength: 1, scrollBarSize: 2});
+
+            $("#btnSignal").jqxButton({ theme: 'dark', width: '150', height: '25'});
+
+            $("#cmbChatTargets").jqxComboBox({source: chatTarget, multiSelect: false, width: 200, height: 25, theme: 'dark'});
+            $("#cmbChatTargets").jqxComboBox('selectItem', 'Everyone');
         });
     </script>
     <script type="text/javascript">
@@ -87,7 +99,7 @@
     <!-- Header -->
     <div class="top-bar" style="background-color: #0a0a0a; width:100%; padding: 0px; height: 30px; border-bottom-color: #0a73a7; border-bottom-style: solid; border-bottom-width: 2px;">
 
-        <div id="siteLogo" style="height: 30px; width: 200px; float: left; text-align: left; padding-left: 10px; ">
+        <div id="siteLogo" style="height: 30px; width: 250px; float: left; text-align: left; padding-left: 10px; ">
             <p style="color: #FFFFFF; font-size: large; font-weight: bold">MissionKeeper.tv</p>
         </div>
 
@@ -174,7 +186,7 @@
             <div class="fixedGrid">
                 <div style="width: 100%; height: 100%; background-color: #262626;">
                     <div id="videoChatParticipantsContainer">
-                        <div id="inviteParticipationPopover">
+                        <div id="inviteParticipationPopover" style="border-color: white; border-style: solid; border-width: 1px;">
                             <div style="padding-bottom: 5px">
                                 <input style="float: left; margin-bottom: 8px" type="text" id="InviteName"/>&nbsp;&nbsp;
                                 <input style="float: right; margin-bottom: 8px" type="text" id="InviteRole"/><br/>
@@ -183,40 +195,35 @@
                             </div>
                         </div>
                         <div id="attendeesHeader" class="listHeader">
-                            <p style="float: left;">Attendees</p><img id="InviteAttendees" style="float: right; margin-right: 5px;" src="img/AddParticipantIcon.png" height="18" width="22"">
+                            <p style="float: left;">Attendees</p><img id="InviteAttendees" style="float: right; margin-right: 5px; height: 18px; width: 22px;" src="img/AddParticipantIcon.png">
                         </div>
-                        <div id="participantsHeader" class="listSubHeader">
-                            Participants
+                        <div id="participantsHeader" class="listSubHeader" style = "width: 240px;">
+                            <p id="participantHeaderNum" style="width: 20px; float: left; text-align: left; margin: 0; padding: 0;">0</p><p style="float: left; width: 100px; text-align: left; margin: 0; padding: 0;">Participants</p>
                         </div>
-                        <div id="participantsList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 200px; padding-top: 8px">
+                        <div id="participantsList" class="scrollbar-9" style="background-color: #262626; width: 240px; overflow-y: auto; height: 200px; padding-top: 8px;">
 
                         </div>
                         <div id="observersHeader" class="listSubHeader">
-                            Observers
+                            <p id="observerHeaderNum" style="width: 10px; float: left">0</p><p style="float: left; width: 40px;">Observers</p>
                         </div>
-                        <div id="observersList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 120px">
+                        <div id="observersList" class="scrollbar-9" style="background-color: #262626; width: 240px; overflow-y: auto; height: 120px">
 
                         </div>
                     </div>
                     <div id="textChatContainer" style="padding-bottom: 20px">
                         <div id="chatHeader" class="listHeader">
-                            Chat
+                            <p style="float: left">Chat</p>
+                            <img class="headerImageButtons" src="img/ChatClose.png" onclick="closeChatPanel();">
+                            <img class="headerImageButtons" src="img/ChatGroupIndiv.png" onclick="groupIndivChat();">
+                            <img class="headerImageButtons" src="img/ChatClear.png" onclick="clearChat();">
                         </div>
-                        <div id="chatList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 300px; padding-left: 10px; padding-top: 8px; margin: 0">
+                        <div id="chatList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 300px; padding-left: 0px; padding-top: 8px; margin-left: -20px">
 
                         </div>
                         <div id="chatEntry" style="text-align: center; width: 100%; padding-left: 20px;">
-
-                            <textarea id="chatSendText"></textarea>
-                            <br/>
-                            <input type="button" value="Submit" id='btnSignal' />
-
-                            <!-- Chat Text Entry Javascript -->
-                            <script type="text/javascript">
-                                $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 90, width: 200, minLength: 1, scrollBarSize: 2});
-
-                                $("#btnSignal").jqxButton({ theme: 'dark', width: '150', height: '25'});
-                            </script>
+                            <textarea id="chatSendText" class="scrollbar-9 underspace"></textarea>
+                            <div class="underspace" id='cmbChatTargets'></div>
+                            <input type="button" value="Submit" id="btnSignal" class="underspace" />
                         </div>
                     </div>
                 </div>
@@ -241,7 +248,7 @@
                                         <div>
                                             STREAMS
                                         </div>
-                                        <div id="streamsList">
+                                        <div id="streamsList" class="scrollbar-9">
                                             No Streams Available...
                                         </div>
                                     </div>
@@ -260,15 +267,15 @@
                                         <div>
                                             WEATHER
                                         </div>
-                                        <div style="padding: 0; width: 100%; height: 360px;">
+                                        <div style="padding: 0; width: 100%; height: 360px; overflow: hidden;">
                                             <div style="padding: 0">
                                                 <img src="img/DkZ4j5.gif" width="250">
                                             </div>
-                                            <div style="padding: 0; width: 100%; height: 30px; background-color: black">
+                                            <div style="padding: 0; width: 100%; height: 20px; background-color: black; padding-left: 5px;">
                                                 <p>Weather Station Data</p>
                                             </div>
-                                            <div style="padding: 0; width: 100%; height: 150px; background-color: white">
-                                                <p>Weather Station Data</p>
+                                            <div style="padding: 0; width: 100%; height: 220px; background-color: white">
+                                                <img src="img/WeatherStationData.png" >
                                             </div>
                                         </div>
                                     </div>
@@ -321,6 +328,8 @@
             var vRole = sessionStorage.getItem( "pilot" );
             var vMissionData;
             var map;
+            var qtyParticipants = 0;
+            var qtyObservers = 0;
 
             var session;
             var publisher;
@@ -329,8 +338,9 @@
             /* Telemetry timer */
             var telemetryTimer;
             var timerFired = 0;
-            var timerInterval = 6000;
+            var timerInterval = 3000;
             var flightPath;
+            var droneMarkers = [];
 
             document.title = missionName + ' Mission (' + missionID + ')';
 
@@ -400,24 +410,103 @@
 
                 for( let tStream of streamsData ) {
 
+                    // streamDiv - Width: 100%;
+                        // thumbDiv - Float: left;
+                            // thumbNode
+                        // streamInfoDiv - Float: right;
+                            // streamIDTitleNode
+                                // streamIDTitleText
+                            // streamIDNode
+                                // streamIDText
+                            // nameTitleNode
+                                // nameTitleText
+                            // streamNameNode
+                                // streamNameText
+                            // platformTitleNode
+                                // platformTitleText
+
                     console.log( "stream " + tStream.Name );
 
+                    // Create Stream Title Bar Div
+                    var streamTitleBar = document.createElement("div");
+                    streamTitleBar.className += " streamTitleBarDiv";
+
+                    // Create the Stream Name Node******************************************
+                    var streamNameNode = document.createElement("p");
+                    streamNameNode.className += " streamNameNode";
+                    var nameText = document.createTextNode( tStream.Name );
+
+                    //var nameNode = document.createTextNode( tStream.Name );
+                    streamNameNode.appendChild(nameText);
+                    streamTitleBar.appendChild(streamNameNode);
+
+                    // Add streamTitleBar to streamsElement
+                    streamsElement.appendChild(streamTitleBar);
+
+                    // Create Divs for all the Stream elements******************************
                     // Create a Div for each stream
                     var streamDiv = document.createElement("div");
+                    streamDiv.className += " streamDiv";
                     streamDiv.setAttribute("data-streamID", tStream.StreamID );
 
-                    streamDiv.className += " paraName";
+                    // Thumbnail Div float left
+                    var thumbDiv = document.createElement("div");
+                    thumbDiv.className += " thumbDiv";
 
-                    // Add the Name Node..
-                    var nameNode = document.createTextNode( tStream.Name );
-                    streamDiv.appendChild(nameNode);
+                    // streamInfo Div float right
+                    var streamInfoDiv = document.createElement("div");
+                    streamInfoDiv.className += " streamInfoDiv";
 
-                    // Add the Platform Node..
-                    var platformNode = document.createTextNode( tStream.Platform );
-                    streamDiv.appendChild(platformNode);
 
-                    // Add the Thumbnail Image Node..
+                    // Create the Stream ID Title Node***************************************
+                    var streamIDTitleNode = document.createElement("p");
+                    streamIDTitleNode.className += " streamTitleNode";
+                    var IDtitleText = document.createTextNode( "Stream ID:" );
+                    var IDtitleBR = document.createElement("br");
+
+                    streamIDTitleNode.appendChild(IDtitleText);
+                    streamInfoDiv.appendChild(streamIDTitleNode);
+                    streamInfoDiv.appendChild(IDtitleBR);
+
+                    // Create the Stream ID Node..
+                    var streamIDNode = document.createElement("p");
+                    streamIDNode.className += " streamNode";
+                    var IDtext = document.createTextNode( tStream.StreamID );
+                    var IDBR = document.createElement("br");
+
+                    // Add IDtext to Stream ID to Stream Info Div
+                    //var nameNode = document.createTextNode( tStream.Name );
+                    streamIDNode.appendChild(IDtext);
+                    streamInfoDiv.appendChild(streamIDNode);
+                    streamInfoDiv.appendChild(IDBR);
+
+                    // Create the Stream Platform Title Node*********************************
+                    var streamPlatformTitleNode = document.createElement("p");
+                    streamPlatformTitleNode.className += " streamTitleNode";
+                    var streamPlatformTitleText = document.createTextNode( "Stream Platform:" );
+                    var platformTitleBR = document.createElement("br");
+
+                    streamPlatformTitleNode.appendChild(streamPlatformTitleText);
+                    streamInfoDiv.appendChild(streamPlatformTitleNode);
+                    streamInfoDiv.appendChild(platformTitleBR);
+
+                    // Create the Stream Platform Node..
+                    var streamPlatformNode = document.createElement("p");
+                    streamPlatformNode.className += " streamNode";
+                    var streamPlatformText = document.createTextNode( tStream.Platform );
+                    var platformBR = document.createElement("br");
+
+                    //var platformNode = document.createTextNode( tStream.Platform );
+                    streamPlatformNode.appendChild(streamPlatformText);
+                    streamInfoDiv.appendChild(streamPlatformNode);
+                    streamInfoDiv.appendChild(platformBR);
+
+                    // Add the streamInfoDIV to the streamDiv*******************************
+                    streamDiv.appendChild(streamInfoDiv);
+
+                    // Add the Thumbnail Image to thumbNode to thumbDiv *******************
                     var thumbNode = document.createElement("img");
+                    thumbNode.className += " streamThumb";
 
                     thumbNode.setAttribute("src", tStream.ThumbnailURI );
 
@@ -425,9 +514,10 @@
                         switchStream(tStream.StreamID);
                     });
 
-                    streamDiv.appendChild(thumbNode);
+                    thumbDiv.appendChild(thumbNode);
+                    streamDiv.appendChild(thumbDiv);
 
-                    streamsElement.appendChild(  streamDiv );
+                    streamsElement.appendChild(streamDiv);
                 }
             }
 
@@ -509,7 +599,14 @@
 
                     var tUserName =  getUsername(event.connection.data);
 
-                    var participantsElement = document.getElementById("participantsList");  //  participantsHeader
+                    // Add new participant to the Chat combobox
+                    $("#cmbChatTargets").jqxComboBox('addItem', tUserName);
+
+                    // Increment the qty of participants number in Participants header
+                    document.getElementById("participantHeaderNum").innerHTML = ++qtyParticipants;
+
+
+                    var participantsElement = document.getElementById("participantsList");
 
                     // Create a div
                     var paraRow = document.createElement("div");
@@ -522,6 +619,7 @@
 
                     // Add a Class
                     paraName.className += " paraName";
+                    //var particpntNode = document.createElement("p");
                     var particpntNode = document.createTextNode( tUserName );
                     paraName.appendChild(particpntNode);
 
@@ -580,8 +678,6 @@
                     var para = document.createElement("p");
                     para.className += " chatText";
 
-                    // Append Participants name text to "p" element
-
                     // var chatterNode = document.createTextNode( tUserName + ' (' + vRole + ')' );
                     var chatterNode = document.createTextNode( tUserName  );
                     chatter.appendChild(chatterNode);
@@ -593,14 +689,8 @@
                     // Append chat text element to container div
                     nameContainer.appendChild(chatter);
 
-                    // Append new line element to container div
-                    // nameContainer.appendChild(newline);
-
                     // Append chat text element to container div
                     nameContainer.appendChild(para);
-
-                    // Append Participants name text element to container div
-                    //paraContainer.appendChild(para);
 
                     var chatterElement = document.getElementById("chatList");
                     chatterElement.appendChild(nameContainer);
@@ -833,9 +923,18 @@
                         flightPath.setMap(null);
                     }
 
+                    var droneIcon = 'img/DroneIcon.png';
+
                     lastTelem =  telemData[ telemData.length - 1 ];
+                    //droneMarker.setMap(null);
 
                     if( map != null ) {
+
+                        // Remove the marker from the map
+                        setMapOnAll(null);
+
+                        // Delete the markers fro the array
+                        droneMarkers = [];
 
                         // loop through json and find telemdata for cooresponding video count
                         flightPath = new google.maps.Polyline({
@@ -846,7 +945,16 @@
                             map: map
                         });
 
+                        // placeMarker at take-off point
+                        var droneMarker = new google.maps.Marker({
+                            position: {lat: lastTelem.lat, lng:  lastTelem.lng},
+                            map: map,
+                            title: 'Drone Position',
+                            icon: droneIcon
+                        });
 
+                        droneMarkers.push(droneMarker);
+                        droneMarkers[0].setMap(map);
 
                         flightPath.setMap(map);
 
@@ -864,6 +972,13 @@
                     }
                 }
 
+            }
+
+            // Sets the map on all markers in the array.
+            function setMapOnAll(map) {
+                for (var i = 0; i < droneMarkers.length; i++) {
+                    droneMarkers[i].setMap(map);
+                }
             }
 
             function initMap(){
@@ -884,6 +999,7 @@
                 });
 
                 var image = 'img/flag-green-icon.png';
+                var droneIcon = 'img/DroneIcon.png';
 
 
                 // placeMarker at take-off point
@@ -893,12 +1009,27 @@
                     title: 'Mission Origin',
                     icon: image
                 });
-
             }
 
             function UpdateLocaltime(telemItem) {
                 var  localTime = telemItem.LocalTime;
                 console.log("Logal Time : " + localTime );
+            }
+
+            function closeChatPanel() {
+                alert("Close Chat Panel");
+            }
+
+            function groupIndivChat() {
+                alert("Group/Individual");
+            }
+
+            function clearChat() {
+                //chatList
+                var mChatList = document.getElementById("chatList");
+                while (mChatList.firstChild) {
+                    mChatList.removeChild(mChatList.firstChild);
+                }
             }
 
         </script>
