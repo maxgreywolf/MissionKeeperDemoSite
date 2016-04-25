@@ -36,12 +36,26 @@
     <script type="text/javascript" src="jqwidgets/jqxwindow.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxdocking.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxtextarea.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdate.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscheduler.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscheduler.api.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatetimeinput.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxpopover.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxtooltip.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxnumberinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxradiobutton.js"></script>
     <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-demo/jqwidgets/jqxcombobox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxtextarea.js"></script>
+    <script type="text/javascript" src="jqwidgets/globalization/globalize.js"></script>
+    <script type="text/javascript" src="jqwidgets/globalization/globalize.culture.de-DE.js"></script>
 
     <!-- Azure Media Player -->
     <script src="//amp.azure.net/libs/amp/1.6.3/azuremediaplayer.min.js"></script>
@@ -62,14 +76,132 @@
             $('#docking').jqxDocking('showCollapseButton', 'window2');
             $('#docking').jqxDocking('showCollapseButton', 'window3');
 
+            // Settings Popup
             $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
 
-            $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 90, width: 200, minLength: 1, scrollBarSize: 2});
+            // Chat text entry
+            $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 80, width: 180, minLength: 1, scrollBarSize: 2});
 
+            // Chat submit button
             $("#btnSignal").jqxButton({ theme: 'dark', width: '150', height: '25'});
 
-            $("#cmbChatTargets").jqxComboBox({source: chatTarget, multiSelect: false, width: 200, height: 25, theme: 'dark'});
+            // Chat target combobox
+            $("#cmbChatTargets").jqxComboBox({source: chatTarget, multiSelect: false, width: 200, height: 25, theme: 'dark', placeHolder: "Send to: Everyone"});
             $("#cmbChatTargets").jqxComboBox('selectItem', 'Everyone');
+
+            // Popup Schedule Window
+            $("#scheduleWindow").jqxWindow({height: 1100, width: 1350, theme: 'dark', isModal: true, autoOpen: false});
+
+            // Scheduler
+            var appointments = new Array();
+            var appointment1 = {
+                id: "id1",
+                description: "George brings projector for presentations.",
+                location: "",
+                subject: "Quarterly Project Review Meeting",
+                calendar: "Room 1",
+                start: new Date(2016, 10, 23, 9, 0, 0),
+                end: new Date(2016, 10, 23, 16, 0, 0)
+            };
+            var appointment2 = {
+                id: "id2",
+                description: "",
+                location: "",
+                subject: "IT Group Mtg.",
+                calendar: "Room 2",
+                start: new Date(2016, 10, 24, 10, 0, 0),
+                end: new Date(2016, 10, 24, 15, 0, 0)
+            };
+            var appointment3 = {
+                id: "id3",
+                description: "",
+                location: "",
+                subject: "Course Social Media",
+                calendar: "Room 3",
+                start: new Date(2016, 10, 27, 11, 0, 0),
+                end: new Date(2016, 10, 27, 13, 0, 0)
+            };
+            var appointment4 = {
+                id: "id4",
+                description: "",
+                location: "",
+                subject: "New Projects Planning",
+                calendar: "Room 2",
+                start: new Date(2016, 10, 23, 16, 0, 0),
+                end: new Date(2016, 10, 23, 18, 0, 0)
+            };
+            var appointment5 = {
+                id: "id5",
+                description: "",
+                location: "",
+                subject: "Interview with James",
+                calendar: "Room 1",
+                start: new Date(2016, 10, 25, 15, 0, 0),
+                end: new Date(2016, 10, 25, 17, 0, 0)
+            };
+            var appointment6 = {
+                id: "id6",
+                description: "",
+                location: "",
+                subject: "Interview with Nancy",
+                calendar: "Room 4",
+                start: new Date(2016, 10, 26, 14, 0, 0),
+                end: new Date(2016, 10, 26, 16, 0, 0)
+            };
+            appointments.push(appointment1);
+            appointments.push(appointment2);
+            appointments.push(appointment3);
+            appointments.push(appointment4);
+            appointments.push(appointment5);
+            appointments.push(appointment6);
+            // prepare the data
+            var source =
+            {
+                dataType: "array",
+                dataFields: [
+                    {name: 'id', type: 'string'},
+                    {name: 'description', type: 'string'},
+                    {name: 'location', type: 'string'},
+                    {name: 'subject', type: 'string'},
+                    {name: 'calendar', type: 'string'},
+                    {name: 'start', type: 'date'},
+                    {name: 'end', type: 'date'}
+                ],
+                id: 'id',
+                localData: appointments
+            };
+            var adapter = new $.jqx.dataAdapter(source);
+            $("#scheduler").jqxScheduler({
+                date: new $.jqx.date(2016, 11, 23),
+                width: 850,
+                height: 600,
+                source: adapter,
+                view: 'weekView',
+                showLegend: true,
+                theme: 'dark',
+                ready: function () {
+                    $("#scheduler").jqxScheduler('ensureAppointmentVisible', 'id1');
+                },
+                resources: {
+                    colorScheme: "scheme05",
+                    dataField: "calendar",
+                    source: new $.jqx.dataAdapter(source)
+                },
+                appointmentDataFields: {
+                    from: "start",
+                    to: "end",
+                    id: "id",
+                    description: "description",
+                    location: "location",
+                    subject: "subject",
+                    resourceId: "calendar"
+                },
+                views: [
+                    'dayView',
+                    'weekView',
+                    'monthView'
+                ]
+            });
         });
     </script>
     <script type="text/javascript">
@@ -158,6 +290,7 @@
 
             function openSchedulerPanel() {
                 alert("wow7");
+                $("#scheduleWindow").jqxWindow('open');
             }
 
             function toggleVideoChatPanel() {
@@ -174,6 +307,16 @@
                     $("#accountSettingsButton").jqxButton({ width: '200', height: '25', theme: 'dark'});
                     $("#missionKeeperSettingsButton").jqxButton({ width: '200', height: '25', theme: 'dark'});
                 </script>
+            </div>
+        </div>
+
+        <div id='scheduleWindow' class="modalLogin">
+            <div>
+                MissionKeeper Scheduler
+            </div>
+            <div>
+                <div id="scheduler" class="schedulePanel">
+                </div>
             </div>
         </div>
 
@@ -217,12 +360,14 @@
                             <img class="headerImageButtons" src="img/ChatGroupIndiv.png" onclick="groupIndivChat();">
                             <img class="headerImageButtons" src="img/ChatClear.png" onclick="clearChat();">
                         </div>
-                        <div id="chatList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 300px; padding-left: 0px; padding-top: 8px; margin-left: -20px">
+                        <div id="chatList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 275px; padding-left: 0px; padding-top: 8px; margin-left: -20px">
 
                         </div>
                         <div id="chatEntry" style="text-align: center; width: 100%; padding-left: 20px;">
-                            <textarea id="chatSendText" class="scrollbar-9 underspace"></textarea>
                             <div class="underspace" id='cmbChatTargets'></div>
+                            <br/>
+                            <textarea id="chatSendText" class="scrollbar-9 underspace"></textarea>
+                            <br/>
                             <input type="button" value="Submit" id="btnSignal" class="underspace" />
                         </div>
                     </div>
@@ -1031,6 +1176,9 @@
                     mChatList.removeChild(mChatList.firstChild);
                 }
             }
+
+        </script>
+        <script type="text/javascript">
 
         </script>
     </div>
