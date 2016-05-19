@@ -65,7 +65,7 @@
 
     <script type="text/javascript">
 
-        /* Chat Combobox Array */
+        /* Chat Combobox Array RolesList */
         var chatTarget = new Array("Everyone");
 
         $(document).ready(function () {
@@ -470,7 +470,7 @@
             var missionID = getParameterByName('Id');
             var missionName = getParameterByName('Name');
             var vUserName = sessionStorage.getItem( "username" );
-            var vRole = sessionStorage.getItem( "pilot" );
+            var vRole = sessionStorage.getItem( "roleName" );
             var vMissionData;
             var map;
             var qtyParticipants = 0;
@@ -486,6 +486,14 @@
             var timerInterval = 3000;
             var flightPath;
             var droneMarkers = [];
+
+            if (vUserName == "") {
+                vUserName = getParameterByName('username');
+            }
+
+            if (vRole == "") {
+                vRole = getParameterByName('role');
+            }
 
             document.title = missionName + ' Mission (' + missionID + ')';
 

@@ -21,12 +21,6 @@
 
 }
 
-/*  position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 240px; */
-
 #videoChatContainer {
     position: absolute;
     text-align: center;
@@ -313,4 +307,95 @@ html, body {
 .streamThumb {
     width: 48px;
     height: 48px;
+}
+
+.appointmentMap {
+    width: 379px;
+}
+
+#Map {
+    width: 379px;
+    height: 250px;
+}
+
+#jqxtabs {
+
+}
+
+#tabSet {
+    width: 380px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+.inviteeRow {
+    visibility: hidden;
+    margin: 0px 0px 4px 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.inviteeRowNum {
+    float: left;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.inviteeName {
+}
+
+.inviteeEmail {
+}
+
+.inviteeRole {
+    float: left;
+    margin: 0px;
+}
+
+#InviteeTable {
+    width: 100%;
+    border: 10px;
+    margin: 5px 0 0 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.InviteeFieldName {
+    height: 15px;
+    width: 70px;
+    padding: 0px 4px 4px 0px;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.InviteeFieldEmail {
+    height: 15px;
+    width: 130px;
+    padding: 0px 4px 4px 0px;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.InviteeFieldRole {
+    height: 15px;
+    padding: 0px 2px 4px 0px;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.InviteeFieldAdd {
+    height: 15px;
+    width: 15px;
+    padding: 0px 0px 4px 0px;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.TabContentDiv {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.appointmentField {
+    margin: 13px 0 0 0;
 }
