@@ -46,6 +46,8 @@
 
 .underspace {
     margin-bottom: 40px;
+    float: left;
+    width: 200px;
 }
 
 .listHeader {
@@ -63,10 +65,9 @@
     height: 20px;
     font-size: .65em;
     font-weight: bold;
-    padding-left: 8px;
     padding-top: 2px;
     color: white;
-    text-align: left;
+    text-align: center;
 }
 
 .headerImageButtons {

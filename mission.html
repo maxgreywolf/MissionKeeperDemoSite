@@ -80,10 +80,10 @@
             $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
 
             // Chat text entry
-            $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 80, width: 180, minLength: 1, scrollBarSize: 2});
+            $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 80, width: 200, minLength: 1, scrollBarSize: 2});
 
             // Chat submit button
-            $("#btnSignal").jqxButton({ theme: 'dark', width: '150', height: '25'});
+            $("#btnSignal").jqxButton({ theme: 'dark', width: '200', height: '25'});
 
             // Chat target combobox
             $("#cmbChatTargets").jqxComboBox({source: chatTarget, multiSelect: false, width: 200, height: 25, theme: 'dark', placeHolder: "Send to: Everyone"});
@@ -340,31 +340,32 @@
                         <div id="attendeesHeader" class="listHeader">
                             <p style="float: left;">Attendees</p><img id="InviteAttendees" style="float: right; margin-right: 5px; height: 18px; width: 22px;" src="img/AddParticipantIcon.png">
                         </div>
-                        <div id="participantsHeader" class="listSubHeader" style = "width: 240px;">
-                            <p id="participantHeaderNum" style="width: 20px; float: left; text-align: left; margin: 0; padding: 0;">0</p><p style="float: left; width: 100px; text-align: left; margin: 0; padding: 0;">Participants</p>
+                        <div id="participantsHeader" class="listSubHeader">
+                            <div style="width: 120px; height: 20px; text-align: center;"><p id="participantHeaderNum" style="width: 10px; float: left;">0</p><p style="width: 40px; float: right;">Participants</p></div>
                         </div>
-                        <div id="participantsList" class="scrollbar-9" style="background-color: #262626; width: 240px; overflow-y: auto; height: 200px; padding-top: 8px;">
+                        <div id="participantsList" class="scrollbar-9" style="background-color: #262626; width: 240px; overflow-y: auto; height: 180px; padding-top: 8px;">
 
                         </div>
                         <div id="observersHeader" class="listSubHeader">
-                            <p id="observerHeaderNum" style="width: 10px; float: left">0</p><p style="float: left; width: 40px;">Observers</p>
+                            <div style="width: 120px; height: 20px; text-align: center;"><p style="width: 40px; float: right;">Observers</p></div>
                         </div>
-                        <div id="observersList" class="scrollbar-9" style="background-color: #262626; width: 240px; overflow-y: auto; height: 120px">
+                        <div id="observersList" class="scrollbar-9" style="background-color: #262626; width: 240px; overflow-y: auto; height: 90px">
 
                         </div>
                     </div>
-                    <div id="textChatContainer" style="padding-bottom: 20px">
+                    <div id="textChatContainer" style="padding-bottom: 20px; height: 600px;">
                         <div id="chatHeader" class="listHeader">
                             <p style="float: left">Chat</p>
                             <img class="headerImageButtons" src="img/ChatClose.png" onclick="closeChatPanel();">
                             <img class="headerImageButtons" src="img/ChatGroupIndiv.png" onclick="groupIndivChat();">
                             <img class="headerImageButtons" src="img/ChatClear.png" onclick="clearChat();">
                         </div>
-                        <div id="chatList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 275px; padding-left: 0px; padding-top: 8px; margin-left: -20px">
+                        <div id="chatList" class="scrollbar-9" style="background-color: #262626; overflow-y: auto; height: 340px; padding-left: 0px; padding-top: 8px; margin-left: -20px">
 
                         </div>
                         <div id="chatEntry" style="text-align: center; width: 100%; padding-left: 20px;">
                             <div class="underspace" id='cmbChatTargets'></div>
+                            <br/>
                             <br/>
                             <textarea id="chatSendText" class="scrollbar-9 underspace"></textarea>
                             <br/>
@@ -487,11 +488,11 @@
             var flightPath;
             var droneMarkers = [];
 
-            if (vUserName == "") {
+            if (vUserName == "null") {
                 vUserName = getParameterByName('userName');
             }
 
-            if (vRole == "") {
+            if (vRole == "null") {
                 vRole = getParameterByName('role');
             }
 
@@ -752,7 +753,7 @@
 
                     var tUserName =  getUsername(event.connection.data);
 
-                    if (tUserName == "") {
+                    if (tUserName == "null") {
                         tUserName = getParameterByName('userName');; //Bookmark
                     }
 
