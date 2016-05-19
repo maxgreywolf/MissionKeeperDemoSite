@@ -488,7 +488,7 @@
             var droneMarkers = [];
 
             if (vUserName == "") {
-                vUserName = getParameterByName('username');
+                vUserName = getParameterByName('userName');
             }
 
             if (vRole == "") {
@@ -751,6 +751,10 @@
                 session.on("connectionCreated", function(event) {
 
                     var tUserName =  getUsername(event.connection.data);
+
+                    if (tUserName == "") {
+                        tUserName = getParameterByName('userName');; //Bookmark
+                    }
 
                     // Add new participant to the Chat combobox
                     $("#cmbChatTargets").jqxComboBox('addItem', tUserName);
