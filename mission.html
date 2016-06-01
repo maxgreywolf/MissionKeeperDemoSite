@@ -20,6 +20,29 @@
     <link rel="stylesheet" href="jqwidgets/styles/jqx.dark.css" type="text/css" />
     <link rel="stylesheet" href="jqwidgets/styles/jqx.energyblue.css" type="text/css" />
     <link rel="stylesheet" href="jqwidgets/styles/jqx.black.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.arctic.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.blackberry.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.darkblue.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.energyblue.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.fresh.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.glacier.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.highcontrast.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.light.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.metro.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.metrodark.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.orange.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.office.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.shinyblack.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.summer.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-darkness.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-le-frog.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-lightness.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-overcast.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-redmond.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-smoothness.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-start.css" type="text/css" />
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.ui-sunny.css" type="text/css" />
 
     <!-- Azure Media Player Style -->
     <link href="//amp.azure.net/libs/amp/1.6.3/skins/amp-default/azuremediaplayer.min.css" rel="stylesheet">
@@ -54,8 +77,11 @@
     <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-demo/jqwidgets/jqxcombobox.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxtextarea.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxtabs.js"></script>
     <script type="text/javascript" src="jqwidgets/globalization/globalize.js"></script>
     <script type="text/javascript" src="jqwidgets/globalization/globalize.culture.de-DE.js"></script>
+
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRl0RJms6XMDz3Bpfg0NKu0UnSAGBN_g8&libraries=visualization"></script> -->
 
     <!-- Azure Media Player -->
     <script src="//amp.azure.net/libs/amp/1.6.3/azuremediaplayer.min.js"></script>
@@ -69,7 +95,7 @@
         var chatTarget = new Array("Everyone");
 
         $(document).ready(function () {
-            $('#docking').jqxDocking({  orientation: 'vertical', width: 250, mode: 'default', theme: 'dark' });
+            $('#docking').jqxDocking({orientation: 'vertical', width: 250, mode: 'default', theme: 'dark'});
             $('#docking').jqxDocking('importLayout', '{"panel0": {"window0":{"collapsed":true},"window1":{"collapsed":false},"window2":{"collapsed":true},"window3":{"collapsed":true}},"orientation": "vertical"}');
             $('#docking').jqxDocking('showCollapseButton', 'window0');
             $('#docking').jqxDocking('showCollapseButton', 'window1');
@@ -77,144 +103,921 @@
             $('#docking').jqxDocking('showCollapseButton', 'window3');
 
             // Settings Popup
-            $("#popover").jqxPopover({offset: {left: -50, top:0}, arrowOffsetValue: 50, title: "Settings", theme: 'dark', showCloseButton: true, selector: $("#settingsButton") });
+            $("#popover").jqxPopover({
+                offset: {left: -50, top: 0},
+                arrowOffsetValue: 50,
+                title: "Settings",
+                theme: 'dark',
+                showCloseButton: true,
+                selector: $("#settingsButton")
+            });
 
             // Chat text entry
-            $('#chatSendText').jqxTextArea({ placeHolder: 'Enter chat text here...', height: 80, width: 200, minLength: 1, scrollBarSize: 2});
+            $('#chatSendText').jqxTextArea({
+                placeHolder: 'Enter chat text here...',
+                height: 80,
+                width: 200,
+                minLength: 1,
+                scrollBarSize: 2
+            });
 
             // Chat submit button
-            $("#btnSignal").jqxButton({ theme: 'dark', width: '200', height: '25'});
+            $("#btnSignal").jqxButton({theme: 'dark', width: '200', height: '25'});
 
             // Chat target combobox
-            $("#cmbChatTargets").jqxComboBox({source: chatTarget, multiSelect: false, width: 200, height: 25, theme: 'dark', placeHolder: "Send to: Everyone"});
+            $("#cmbChatTargets").jqxComboBox({
+                source: chatTarget,
+                multiSelect: false,
+                width: 200,
+                height: 25,
+                theme: 'dark',
+                placeHolder: "Send to: Everyone"
+            });
             $("#cmbChatTargets").jqxComboBox('selectItem', 'Everyone');
 
             // Popup Schedule Window
-            $("#scheduleWindow").jqxWindow({height: 1100, width: 1350, theme: 'dark', isModal: true, autoOpen: false});
+            $("#scheduleWindow").jqxWindow({
+                height: 1100,
+                width: 1650,
+                theme: 'dark',
+                isModal: true,
+                autoOpen: false,
+                position: {x: 0, y: 0}
+            });
 
-            // Scheduler
-            var appointments = new Array();
-            var appointment1 = {
-                id: "id1",
-                description: "George brings projector for presentations.",
-                location: "",
-                subject: "Quarterly Project Review Meeting",
-                calendar: "Room 1",
-                start: new Date(2016, 10, 23, 9, 0, 0),
-                end: new Date(2016, 10, 23, 16, 0, 0)
-            };
-            var appointment2 = {
-                id: "id2",
-                description: "",
-                location: "",
-                subject: "IT Group Mtg.",
-                calendar: "Room 2",
-                start: new Date(2016, 10, 24, 10, 0, 0),
-                end: new Date(2016, 10, 24, 15, 0, 0)
-            };
-            var appointment3 = {
-                id: "id3",
-                description: "",
-                location: "",
-                subject: "Course Social Media",
-                calendar: "Room 3",
-                start: new Date(2016, 10, 27, 11, 0, 0),
-                end: new Date(2016, 10, 27, 13, 0, 0)
-            };
-            var appointment4 = {
-                id: "id4",
-                description: "",
-                location: "",
-                subject: "New Projects Planning",
-                calendar: "Room 2",
-                start: new Date(2016, 10, 23, 16, 0, 0),
-                end: new Date(2016, 10, 23, 18, 0, 0)
-            };
-            var appointment5 = {
-                id: "id5",
-                description: "",
-                location: "",
-                subject: "Interview with James",
-                calendar: "Room 1",
-                start: new Date(2016, 10, 25, 15, 0, 0),
-                end: new Date(2016, 10, 25, 17, 0, 0)
-            };
-            var appointment6 = {
-                id: "id6",
-                description: "",
-                location: "",
-                subject: "Interview with Nancy",
-                calendar: "Room 4",
-                start: new Date(2016, 10, 26, 14, 0, 0),
-                end: new Date(2016, 10, 26, 16, 0, 0)
-            };
-            appointments.push(appointment1);
-            appointments.push(appointment2);
-            appointments.push(appointment3);
-            appointments.push(appointment4);
-            appointments.push(appointment5);
-            appointments.push(appointment6);
+            $('#scheduleWindow').on('open', function (event) {
+                var uriMissions = "http://missionkeeperapi.azurewebsites.net/api/missions";
+
+                $.getJSON(uriMissions, function(missionsData)  {
+
+                    //setupCurrentMissions(missionsData);
+
+                    setupSchedule(missionsData);
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+
+        var geocoder;
+        var maptwo;
+
+        var inviteeName_1;
+        var inviteeEmail_1;
+        var inviteeRole_1;
+
+        var inviteeName_2;
+        var inviteeEmail_2;
+        var inviteeRole_2;
+
+        var inviteeName_3;
+        var inviteeEmail_3;
+        var inviteeRole_3;
+
+        var inviteeName_4;
+        var inviteeEmail_4;
+        var inviteeRole_4;
+
+        var inviteeName_5;
+        var inviteeEmail_5;
+        var inviteeRole_5;
+
+        var inviteeName_6;
+        var inviteeEmail_6;
+        var inviteeRole_6;
+
+        function setupSchedule(missionsData) {
+
+            var missions = new Array();
+
+            $.each( missionsData, function( index, value ) {
+
+                var tComex = parseJsonDate( value.Comex );
+                var tFinex = parseJsonDate( value.Finex );
+
+                var tBkgrdColor;
+
+                switch ( value.Type ) {
+                    case 0:
+                        tBkgrdColor = '#FF0000';
+                        break;
+                    case 1:
+                        tBkgrdColor = '#0000FF';
+                        break;
+                    case 2:
+                        tBkgrdColor = '#00FF00';
+                        break;
+                    case 3:
+                        tBkgrdColor = '#00F0F0';
+                        break;
+                }
+
+                if ( ! value.IsHidden) {
+
+                    var tMission = {
+                        id: value.ID,
+                        description: value.Description,
+                        location: value.Location,
+                        subject: value.Name,
+                        calendar: "My Missions",
+                        start: tComex,
+                        end: tFinex,
+                        background: tBkgrdColor
+                    };
+
+                    missions.push(tMission);
+                }
+
+            });
+
             // prepare the data
             var source =
             {
                 dataType: "array",
                 dataFields: [
-                    {name: 'id', type: 'string'},
-                    {name: 'description', type: 'string'},
-                    {name: 'location', type: 'string'},
-                    {name: 'subject', type: 'string'},
-                    {name: 'calendar', type: 'string'},
-                    {name: 'start', type: 'date'},
-                    {name: 'end', type: 'date'}
+                    { name: 'id', type: 'string' },
+                    { name: 'description', type: 'string' },
+                    { name: 'location', type: 'string' },
+                    { name: 'subject', type: 'string' },
+                    { name: 'calendar', type: 'string' },
+                    { name: 'start', type: 'date' },
+                    { name: 'end', type: 'date' },
+                    { name: 'background', type: 'string' }
                 ],
                 id: 'id',
-                localData: appointments
+                localData: missions
             };
             var adapter = new $.jqx.dataAdapter(source);
+
             $("#scheduler").jqxScheduler({
-                date: new $.jqx.date(2016, 11, 23),
-                width: 850,
-                height: 600,
+                date: new $.jqx.date('todayDate'),
+                width: 1870,
+                height: 890,
+                maxWidth: 1870,
+                maxHeight: 890,
                 source: adapter,
-                view: 'weekView',
-                showLegend: true,
-                theme: 'dark',
+                showLegend: false,
+                theme: 'energyblue',
+                editDialogCreate: function (dialog, fields, editAppointment) {
+                    // hide repeat option
+                    fields.repeatContainer.hide();
+                    // hide description option
+                    fields.descriptionContainer.hide();
+                    // hide All Day option
+                    fields.allDayContainer.hide();
+                    // hide status option
+                    fields.statusContainer.hide();
+                    // hide timeZone option
+                    fields.timeZoneContainer.hide();
+                    // hide location option
+                    fields.locationContainer.hide();
+                    // hide color option
+                    fields.colorContainer.hide();
+                    fields.subjectLabel.html("Mission Name");
+                    //fields.locationLabel.html("Location");
+                    fields.fromLabel.html("Start");
+                    fields.toLabel.html("End");
+                    fields.resourceLabel.html("Mission Type");
+
+                    // add custom print button.
+                    printButton = $("<button style='margin-left: 5px; float:right;'>Print</button>");
+                    fields.buttons.append(printButton);
+                    printButton.jqxButton({ theme: this.theme });
+                    printButton.click(function () {
+                        var appointment = editAppointment;
+                        if (!appointment)
+                            return;
+                        var appointmentContent =
+                                "<table class='printTable'>" +
+                                "<tr>" +
+                                "<td class='label'>Title</td>" +
+                                "<td>" + fields.subject.val() + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td class='label'>Start</td>" +
+                                "<td>" + fields.from.val() + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td class='label'>End</td>" +
+                                "<td>" + fields.to.val() + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td class='label'>Where</td>" +
+                                "<td>" + fields.location.val() + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td class='label'>Calendar</td>" +
+                                "<td>" + fields.resource.val() + "</td>" +
+                                "</tr>"
+                                + "</table>";
+                        var newWindow = window.open('', '', 'width=800, height=500'),
+                                document = newWindow.document.open(),
+                                pageContent =
+                                        '<!DOCTYPE html>\n' +
+                                        '<html>\n' +
+                                        '<head>\n' +
+                                        '<meta charset="utf-8" />\n' +
+                                        '<title>jQWidgets Scheduler</title>\n' +
+                                        '<style>\n' +
+                                        '.printTable {\n' +
+                                        'border-color: #aaa;\n' +
+                                        '}\n' +
+                                        '.printTable .label {\n' +
+                                        'font-weight: bold;\n' +
+                                        '}\n' +
+                                        '.printTable td{\n' +
+                                        'padding: 4px 3px;\n' +
+                                        'border: 1px solid #DDD;\n' +
+                                        'vertical-align: top;\n' +
+                                        '}\n' +
+                                        '</style>' +
+                                        '</head>\n' +
+                                        '<body>\n' + appointmentContent + '\n</body>\n</html>';
+                        try
+                        {
+                            document.write(pageContent);
+                            document.close();
+                        }
+                        catch (error) {
+                        }
+                        newWindow.print();
+                    });
+
+                    // var qwerty = fields.location[0];
+                    // qwerty.setValue( "Fuck" );
+
+                },
+                /**
+                 * called when the dialog is opened. Returning true as a result disables the built-in handler.
+                 * @param {Object} dialog - jqxWindow's jQuery object.
+                 * @param {Object} fields - Object with all widgets inside the dialog.
+                 * @param {Object} the selected appointment instance or NULL when the dialog is opened from cells selection.
+                 */
+                editDialogOpen: function (dialog, fields, editAppointment) {
+
+                    // hide repeat option
+                    fields.repeatContainer.hide();
+
+                    if (!editAppointment && printButton) {
+                        printButton.jqxButton({ disabled: true });
+                    }
+                    else if (editAppointment && printButton) {
+                        printButton.jqxButton({ disabled: false });
+                    }
+                },
+                /**
+                 * called when the dialog is closed.
+                 * @param {Object} dialog - jqxWindow's jQuery object.
+                 * @param {Object} fields - Object with all widgets inside the dialog.
+                 * @param {Object} the selected appointment instance or NULL when the dialog is opened from cells selection.
+                 */
+                editDialogClose: function (dialog, fields, editAppointment) {
+                },
+                /**
+                 * called when a key is pressed while the dialog is on focus. Returning true or false as a result disables the built-in keyDown handler.
+                 * @param {Object} dialog - jqxWindow's jQuery object.
+                 * @param {Object} fields - Object with all widgets inside the dialog.
+                 * @param {Object} the selected appointment instance or NULL when the dialog is opened from cells selection.
+                 * @param {jQuery.Event Object} the keyDown event.
+                 */
+                editDialogKeyDown: function (dialog, fields, editAppointment, event) {
+                },
                 ready: function () {
-                    $("#scheduler").jqxScheduler('ensureAppointmentVisible', 'id1');
+                    $("#scheduler").jqxScheduler('scrollTop', 200);
                 },
-                resources: {
-                    colorScheme: "scheme05",
-                    dataField: "calendar",
-                    source: new $.jqx.dataAdapter(source)
-                },
-                appointmentDataFields: {
+                appointmentDataFields:
+                {
                     from: "start",
                     to: "end",
                     id: "id",
                     description: "description",
                     location: "location",
                     subject: "subject",
+                    background: "background",
                     resourceId: "calendar"
                 },
-                views: [
-                    'dayView',
-                    'weekView',
-                    'monthView'
-                ]
+                view: 'weekView',
+                views:
+                        [
+                            'dayView',
+                            'weekView',
+                            'monthView'
+                        ]
             });
-        });
+
+            $('#scheduler').on('appointmentAdd', function (event) {
+
+                var args = event.args;
+                var appointment = args.appointment;
+
+            });
+
+            $("#scheduler").jqxScheduler('ensureVisible',  new $.jqx.date(), missionsData[2].ID );
+
+            //*********************Start Testing Customizing the Appointment Dialog********************
+            $("#scheduler").on('editDialogCreate', function(dialog, fields, editAppointment){
+
+                var MapLocation = "";
+                var ApptTabSet = "";
+
+                ApptTabSet += "<div id='tabSet'>";
+                ApptTabSet += "<div id='jqxtabs'>";
+                ApptTabSet += "<ul style='margin-left: 20px;'>";
+                ApptTabSet += "<li>Locate</li>";
+                ApptTabSet += "<li>Invite</li>";
+                ApptTabSet += "<li>Insure</li>";
+                ApptTabSet += "<li>COA</li>";
+                ApptTabSet += "</ul>";
+                ApptTabSet += "<div style='overflow: hidden; height: 350px;'>";
+                ApptTabSet += "<div id='InviteMap' class='appointmentMap' style='text-align: center;'><img src='img/USmap.png' id='mapPlacesetter' /></div>";
+                ApptTabSet += "<input type='text' id='Location1' />";
+                ApptTabSet += "<input type='button' id='mapit' style='margin-top: 4px;' value='Click to map the location.' />";
+                ApptTabSet += "</div>";
+                // Invite
+                ApptTabSet += "<div class='TabContentDiv' style='overflow: hidden; height: 350px;'>Add Mission Invitees Below";
+                ApptTabSet += "<table id='InviteeTable'>";
+                ApptTabSet += "<tr class='inviteeRow' id='InviteeRow_1' style='visibility: visible;'>";
+                ApptTabSet += "<td class='InviteeFieldName'><input type='text' class='inviteeName' id='InviteeName_1'/></td>";
+                ApptTabSet += "<td class='InviteeFieldEmail'><input type='text' class='inviteeEmail' id='InviteeEmail_1'/></td>";
+                ApptTabSet += "<td class='InviteeFieldRole'><div class='inviteeRole' id='cmbRole_1' style='float: right; margin: 0px;'></div></td>";
+                ApptTabSet += "<td class='InviteeFieldAdd'><input type='button' id='addInvitee_1' value='+' style='float: right; margin: 0px;' /></td>";
+                ApptTabSet += "</tr>";
+                ApptTabSet += "<tr class='inviteeRow' id='InviteeRow_2' style='visibility: visible;'>";
+                ApptTabSet += "<td class='InviteeFieldName'><input type='text' class='inviteeName' id='InviteeName_2'/></td>";
+                ApptTabSet += "<td class='InviteeFieldEmail'><input type='text' class='inviteeEmail' id='InviteeEmail_2'/></td>";
+                ApptTabSet += "<td class='InviteeFieldRole'><div class='inviteeRole' id='cmbRole_2' style='float: right; margin: 0px;'></div></td>";
+                ApptTabSet += "<td class='InviteeFieldAdd'><input type='button' id='addInvitee_2' value='+' style='float: right; margin: 0px;' /></td>";
+                ApptTabSet += "</tr>";
+                ApptTabSet += "<tr class='inviteeRow' id='InviteeRow_3' style='visibility: visible;'>";
+                ApptTabSet += "<td class='InviteeFieldName'><input type='text' class='inviteeName' id='InviteeName_3'/></td>";
+                ApptTabSet += "<td class='InviteeFieldEmail'><input type='text' class='inviteeEmail' id='InviteeEmail_3'/></td>";
+                ApptTabSet += "<td class='InviteeFieldRole'><div class='inviteeRole' id='cmbRole_3' style='float: right; margin: 0px;'></div></td>";
+                ApptTabSet += "<td class='InviteeFieldAdd'><input type='button' id='addInvitee_3' value='+' style='float: right; margin: 0px;' /></td>";
+                ApptTabSet += "</tr>";
+                ApptTabSet += "<tr class='inviteeRow' id='InviteeRow_4' style='visibility: visible;'>";
+                ApptTabSet += "<td class='InviteeFieldName'><input type='text' class='inviteeName' id='InviteeName_4'/></td>";
+                ApptTabSet += "<td class='InviteeFieldEmail'><input type='text' class='inviteeEmail' id='InviteeEmail_4'/></td>";
+                ApptTabSet += "<td class='InviteeFieldRole'><div class='inviteeRole' id='cmbRole_4' style='float: right; margin: 0px;'></div></td>";
+                ApptTabSet += "<td class='InviteeFieldAdd'><input type='button' id='addInvitee_4' value='+' style='float: right; margin: 0px;' /></td>";
+                ApptTabSet += "</tr>";
+                ApptTabSet += "<tr class='inviteeRow' id='InviteeRow_5' style='visibility: visible;'>";
+                ApptTabSet += "<td class='InviteeFieldName'><input type='text' class='inviteeName' id='InviteeName_5'/></td>";
+                ApptTabSet += "<td class='InviteeFieldEmail'><input type='text' class='inviteeEmail' id='InviteeEmail_5'/></td>";
+                ApptTabSet += "<td class='InviteeFieldRole'><div class='inviteeRole' id='cmbRole_5' style='float: right; margin: 0px;'></div></td>";
+                ApptTabSet += "<td class='InviteeFieldAdd'><input type='button' id='addInvitee_5' value='+' style='float: right; margin: 0px;' /></td>";
+                ApptTabSet += "</tr>";
+                ApptTabSet += "<tr class='inviteeRow' id='InviteeRow_6' style='visibility: visible;'>";
+                ApptTabSet += "<td class='InviteeFieldName'><input type='text' class='inviteeName' id='InviteeName_6'/></td>";
+                ApptTabSet += "<td class='InviteeFieldEmail'><input type='text' class='inviteeEmail' id='InviteeEmail_6'/></td>";
+                ApptTabSet += "<td class='InviteeFieldRole'><div class='inviteeRole' id='cmbRole_6' style='float: right; margin: 0px;'></td>";
+                ApptTabSet += "<td class='InviteeFieldAdd'><input type='button' id='addInvitee_6' value='+' style='float: right; margin: 0px;' /></td>";
+                ApptTabSet += "</tr>";
+                ApptTabSet += "</table>";
+                ApptTabSet += "</div>";
+                // Insure
+                ApptTabSet += "<div style='overflow: hidden; height: 350px;'>";
+                ApptTabSet += "Insurance Info";
+                ApptTabSet += "<input type='text' class='appointmentField' id='InsPolicyNumber' value='8759264-852-41' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='InsCarrier' value='Travers & Associates' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='InsName' value='Bill Samuels' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='InsPhone' value='(213) 555-4186' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='InsEmail' value='Bill.Samuels@traversaviation.com' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "</div>";
+                // COA
+                ApptTabSet += "<div style='overflow: hidden; height: 350px;'>";
+                ApptTabSet += "<div style='width: 40%; float: left;'>";
+                ApptTabSet += "<input type='text' class='appointmentField' id='COANumber' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='Platform' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='Altitude' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='PilotInCharge' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='Observer_1' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='Observer_2' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='Frequencies' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "</div>";
+                ApptTabSet += "<div style='width: 60%; float: right;'>";
+                ApptTabSet += "<input type='text' class='appointmentField' id='FlightTime' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='ContingencyProcedures' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='Hazards' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='LawEnforcement' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='EMT' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "<input type='text' class='appointmentField' id='LostLink_Flyaway' style='margin: 4px 0 0 0;' />";
+                ApptTabSet += "</div>";
+                ApptTabSet += "<div style='width: 100%; float: left; margin-top: 4px'>";
+                ApptTabSet += "<textarea class='appointmentField' id='MissionOverview' style='color: black; margin: 4px 0 0 0;' />";
+                ApptTabSet += "</div>";
+                ApptTabSet += "</div>";
+                ApptTabSet += "</div>";
+                ApptTabSet += "</div>";
+
+                /*
+                 Policy number”
+                 “Expiration Date”
+                 “Carrier”
+                 "insurance contact info”
+                 this would be the name
+                 phone number
+                 email address of the insurance broker or carrier.
+                 COA Number 					114
+                 Platform 					118WP
+                 Location 					NCSU Butner Beef Cattle Farm
+                 Altitude 					400'
+                 Pilot in Charge 				Kevin Franklin
+                 Observer #1 					Mark Carter
+                 Observer #2 					N/A
+                 Mission Overview 				Test of new IR camera
+                 Frequencies to be Used 				2.4   122.8
+                 Planned Flight Time 				10 Minutes
+                 Contingency Procedures 				Home
+                 Hazards unique to the flight being flown 	No Wind
+                 Emergency Contact - Law Enforcement 		911
+                 Emergency Contact - EMT 			911
+                 Emergency Contact - Lost Link/Flyaway 		RDU Approach   919-840-7700*/
+
+                var i = 0;
+
+                $('#dialogscheduler').children('div').each(function () { // loop trough the div's (only first level childs) elements in dialogscheduler
+                    //var subjectInput = document.getElementById("jqxWidgetdaf6f1e9");
+                    //subjectInput('val','Whatup');
+                    i += 1;
+                    if (i == 4) { // places the field in the third position.
+                        $(this).after(ApptTabSet);
+                        //$(this).after(MapLocation);
+                    }
+                    if (i == 5) { // places the field in the sixth position.
+                        //$(this).after(Platform);
+                    }
+                    if (i == 5) { // places the field in the sixth position.
+                        //$(this).after(Operator);
+                    }
+                    if (i == 9) { // places the field in the sixth position.
+                        //$(this).after(Sensor);
+                        return false; // exits the loop
+                    }
+                });
+
+                /* Chat Combobox Array RolesList */
+                var RolesList = ["Administrator", "Participant", "Observer", "Operator"];
+
+                $('#COANumber').jqxInput({ width: 125, height: 25, placeHolder: 'COA Number', theme: 'energyblue' });
+                $('#Platform').jqxInput({ width: 125, height: 25, placeHolder: 'Platform', theme: 'energyblue' });
+                $('#Altitude').jqxInput({ width: 125, height: 25, placeHolder: 'Altitude', theme: 'energyblue' });
+                $('#PilotInCharge').jqxInput({ width: 125, height: 25, placeHolder: 'Pilot in Charge', theme: 'energyblue' });
+                $('#Observer_1').jqxInput({ width: 125, height: 25, placeHolder: 'Observer #1', theme: 'energyblue' });
+                $('#Observer_2').jqxInput({ width: 125, height: 25, placeHolder: 'Observer #2', theme: 'energyblue' });
+                $('#MissionOverview').jqxTextArea({ width: '99%', height: 75, placeHolder: 'Mission Overview', scrollBarSize: 5, theme: 'energyblue' });
+                $('#Frequencies').jqxInput({ width: 125, height: 25, placeHolder: 'Frequencies', theme: 'energyblue' });
+                $('#FlightTime').jqxInput({ width: '95%', height: 25, placeHolder: 'Planned Flight Time', theme: 'energyblue' });
+                $('#ContingencyProcedures').jqxInput({ width: '95%', height: 25, placeHolder: 'Contingency Procedures', theme: 'energyblue' });
+                $('#Hazards').jqxInput({ width: '95%', height: 25, placeHolder: 'Hazards to Flight being Flown', theme: 'energyblue' });
+                $('#LawEnforcement').jqxInput({ width: '95%', height: 25, placeHolder: 'Emergency # - Police', theme: 'energyblue' });
+                $('#EMT').jqxInput({ width: '95%', height: 25, placeHolder: 'Emergency # - EMT', theme: 'energyblue' });
+                $('#LostLink_Flyaway').jqxInput({ width: '95%', height: 25, placeHolder: 'Emergency # - Flyaway', theme: 'energyblue' });
+
+                $('#InsPolicyNumber').jqxInput({ width: '95%', height: 25, placeHolder: 'Policy Number', theme: 'energyblue' });
+                $('#InsCarrier').jqxInput({ width: '95%', height: 25, placeHolder: 'Carrier Name', theme: 'energyblue' });
+                $('#InsName').jqxInput({ width: '95%', height: 25, placeHolder: 'Contact Name', theme: 'energyblue' });
+                $('#InsPhone').jqxInput({ width: '95%', height: 25, placeHolder: 'Phone Number', theme: 'energyblue' });
+                $('#InsEmail').jqxInput({ width: '95%', height: 25, placeHolder: 'Email Address', theme: 'energyblue' });
+
+                $('#Location1').jqxInput({ width: '100%', height: 25, placeHolder: 'Mission Address', theme: 'energyblue' });
+                $('#InviteeName_1').jqxInput({ width: 70, height: 25, placeHolder: 'Name', theme: 'energyblue' });
+                $('#InviteeEmail_1').jqxInput({ width: 130, height: 25, placeHolder: 'Email Address', theme: 'energyblue' });
+                $('#cmbRole_1').jqxComboBox({source: RolesList, multiSelect: false, width: 110, height: 25, theme: 'energyblue', placeHolder: "Select Role"});
+                $('#addInvitee_1').jqxButton({ width: 20, height: 25, theme: 'energyblue' });
+
+                $('#InviteeName_2').jqxInput({ width: 70, height: 25, placeHolder: 'Name', theme: 'energyblue' });
+                $('#InviteeEmail_2').jqxInput({ width: 130, height: 25, placeHolder: 'Email Address', theme: 'energyblue' });
+                $('#cmbRole_2').jqxComboBox({source: RolesList, multiSelect: false, width: 110, height: 25, theme: 'energyblue', placeHolder: "Select Role"});
+                $('#addInvitee_2').jqxButton({ width: 20, height: 25, theme: 'energyblue' });
+
+                $('#InviteeName_3').jqxInput({ width: 70, height: 25, placeHolder: 'Name', theme: 'energyblueenergyblue' });
+                $('#InviteeEmail_3').jqxInput({ width: 130, height: 25, placeHolder: 'Email Address', theme: 'energyblue' });
+                $('#cmbRole_3').jqxComboBox({source: RolesList, multiSelect: false, width: 110, height: 25, theme: 'energyblue', placeHolder: "Select Role"});
+                $('#addInvitee_3').jqxButton({ width: 20, height: 25, theme: 'energyblue' });
+
+                $('#InviteeName_4').jqxInput({ width: 70, height: 25, placeHolder: 'Name', theme: 'energyblue' });
+                $('#InviteeEmail_4').jqxInput({ width: 130, height: 25, placeHolder: 'Email Address', theme: 'energyblue' });
+                $('#cmbRole_4').jqxComboBox({source: RolesList, multiSelect: false, width: 110, height: 25, theme: 'energyblue', placeHolder: "Select Role"});
+                $('#addInvitee_4').jqxButton({ width: 20, height: 25, theme: 'energyblue' });
+
+                $('#InviteeName_5').jqxInput({ width: 70, height: 25, placeHolder: 'Name', theme: 'energyblue' });
+                $('#InviteeEmail_5').jqxInput({ width: 130, height: 25, placeHolder: 'Email Address', theme: 'energyblue' });
+                $('#cmbRole_5').jqxComboBox({source: RolesList, multiSelect: false, width: 110, height: 25, theme: 'energyblue', placeHolder: "Select Role"});
+                $('#addInvitee_5').jqxButton({ width: 20, height: 25, theme: 'energyblue' });
+
+                $('#InviteeName_6').jqxInput({ width: 70, height: 25, placeHolder: 'Name', theme: 'energyblue' });
+                $('#InviteeEmail_6').jqxInput({ width: 130, height: 25, placeHolder: 'Email Address', theme: 'energyblue' });
+                $('#cmbRole_6').jqxComboBox({source: RolesList, multiSelect: false, width: 110, height: 25, theme: 'energyblue', placeHolder: "Select Role"});
+                $('#addInvitee_6').jqxButton({ width: 20, height: 25, theme: 'energyblue' });
+
+                $("#InviteeRow_2").toggle();
+                $("#InviteeRow_3").toggle();
+                $("#InviteeRow_4").toggle();
+                $("#InviteeRow_5").toggle();
+                $("#InviteeRow_6").toggle();
+
+                /* var inviteeName_1;
+                 var inviteeEmail_1;
+                 var inviteeRole_1; */
+
+                $('#InviteeName_1').on('change',
+                        function (event) {
+                            inviteeName_1 = $('#InviteeName_1').val();
+                        });
+
+                $('#InviteeEmail_1').on('change',
+                        function (event) {
+                            inviteeEmail_1 = $('#InviteeEmail_1').val();
+                        });
+
+                $('#cmbRole_1').on('change',
+                        function (event) {
+                            var args = event.args;
+                            if (args) {
+                                // index represents the item's index.
+                                var item = args.item;
+                                inviteeRole_1 = item.value;
+                            }
+                        });
+
+                $('#InviteeName_2').on('change',
+                        function (event) {
+                            inviteeName_2 = $('#InviteeName_2').val();
+                        });
+
+                $('#InviteeEmail_2').on('change',
+                        function (event) {
+                            inviteeEmail_2 = $('#InviteeEmail_2').val();
+                        });
+
+                $('#cmbRole_2').on('change',
+                        function (event) {
+                            var args = event.args;
+                            if (args) {
+                                // index represents the item's index.
+                                var item = args.item;
+                                inviteeRole_2 = item.value;
+                            }
+                        });
+
+                $('#InviteeName_3').on('change',
+                        function (event) {
+                            inviteeName_3 = $('#InviteeName_3').val();
+                        });
+
+                $('#InviteeEmail_3').on('change',
+                        function (event) {
+                            inviteeEmail_3 = $('#InviteeEmail_3').val();
+                        });
+
+                $('#cmbRole_3').on('change',
+                        function (event) {
+                            var args = event.args;
+                            if (args) {
+                                // index represents the item's index.
+                                var item = args.item;
+                                inviteeRole_3 = item.value;
+                            }
+                        });
+
+                $('#InviteeName_4').on('change',
+                        function (event) {
+                            inviteeName_4 = $('#InviteeName_4').val();
+                        });
+
+                $('#InviteeEmail_4').on('change',
+                        function (event) {
+                            inviteeEmail_4 = $('#InviteeEmail_4').val();
+                        });
+
+                $('#cmbRole_4').on('change',
+                        function (event) {
+                            var args = event.args;
+                            if (args) {
+                                // index represents the item's index.
+                                var item = args.item;
+                                inviteeRole_4 = item.value;
+                            }
+                        });
+
+                $('#InviteeName_5').on('change',
+                        function (event) {
+                            inviteeName_5 = $('#InviteeName_5').val();
+                        });
+
+                $('#InviteeEmail_5').on('change',
+                        function (event) {
+                            inviteeEmail_5 = $('#InviteeEmail_5').val();
+                        });
+
+                $('#cmbRole_5').on('change',
+                        function (event) {
+                            var args = event.args;
+                            if (args) {
+                                // index represents the item's index.
+                                var item = args.item;
+                                inviteeRole_5 = item.value;
+                            }
+                        });
+
+                $('#InviteeName_6').on('change',
+                        function (event) {
+                            inviteeName_6 = $('#InviteeName_6').val();
+                        });
+
+                $('#InviteeEmail_6').on('change',
+                        function (event) {
+                            inviteeEmail_6 = $('#InviteeEmail_6').val();
+                        });
+
+                $('#cmbRole_6').on('change',
+                        function (event) {
+                            var args = event.args;
+                            if (args) {
+                                // index represents the item's index.
+                                var item = args.item;
+                                inviteeRole_6 = item.value;
+                            }
+                        });
+
+                $('#scheduler').on('appointmentAdd',
+                        function (event) {
+                            var args = event.args;
+                            var mAppointment = args.appointment;
+                            var mMissionID = "a0914d13-797e-49e1-9500-68553b61749e";
+
+                            var mSubject = mAppointment.subject;
+                            var mStart = mAppointment.from;
+                            var mEnd = mAppointment.to;
+
+                            if (inviteeName_1 && inviteeEmail_1 && inviteeRole_1) {
+
+                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_1 + "/role/" + inviteeRole_1 + "/email/" + inviteeEmail_1 + "/";
+
+                                $.getJSON(uriInviteEmail, function (result) {
+                                    console.log("Invitation : " + result);
+                                });
+
+                                inviteeName_1 = "";
+                                inviteeEmail_1 = "";
+                                inviteeRole_1 = "";
+                            }
+
+                            if (inviteeName_2 && inviteeEmail_2 && inviteeRole_2) {
+
+                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_2 + "/role/" + inviteeRole_2 + "/email/" + inviteeEmail_2 + "/";
+
+                                $.getJSON(uriInviteEmail, function (result) {
+                                    console.log("Invitation : " + result);
+                                });
+
+                                inviteeName_2 = "";
+                                inviteeEmail_2 = "";
+                                inviteeRole_2 = "";
+                            }
+
+                            if (inviteeName_3 && inviteeEmail_3 && inviteeRole_3) {
+
+                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_3 + "/role/" + inviteeRole_3 + "/email/" + inviteeEmail_3 + "/";
+
+                                $.getJSON(uriInviteEmail, function (result) {
+                                    console.log("Invitation : " + result);
+                                });
+
+                                inviteeName_3 = "";
+                                inviteeEmail_3 = "";
+                                inviteeRole_3 = "";
+                            }
+
+                            if (inviteeName_4 && inviteeEmail_4 && inviteeRole_4) {
+
+                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_4 + "/role/" + inviteeRole_4 + "/email/" + inviteeEmail_4 + "/";
+
+                                $.getJSON(uriInviteEmail, function (result) {
+                                    console.log("Invitation : " + result);
+                                });
+
+                                inviteeName_4 = "";
+                                inviteeEmail_4 = "";
+                                inviteeRole_4 = "";
+                            }
+
+                            if (inviteeName_5 && inviteeEmail_5 && inviteeRole_5) {
+
+                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_5 + "/role/" + inviteeRole_5 + "/email/" + inviteeEmail_5 + "/";
+
+                                $.getJSON(uriInviteEmail, function (result) {
+                                    console.log("Invitation : " + result);
+                                });
+
+                                inviteeName_5 = "";
+                                inviteeEmail_5 = "";
+                                inviteeRole_5 = "";
+                            }
+
+                            if (inviteeName_6 && inviteeEmail_6 && inviteeRole_6) {
+
+                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_6 + "/role/" + inviteeRole_6 + "/email/" + inviteeEmail_6 + "/";
+
+                                $.getJSON(uriInviteEmail, function (result) {
+                                    console.log("Invitation : " + result);
+                                });
+
+                                inviteeName_6 = "";
+                                inviteeEmail_6 = "";
+                                inviteeRole_6 = "";
+                            }
+                        });
+
+                $('#addInvitee_1').on('click', function () {
+                    var mInviteeRow_2 = $("#InviteeRow_2");
+                    mInviteeRow_2.toggle();
+                    $('#addInvitee_1').toggle();
+                });
+
+                $('#addInvitee_2').on('click', function () {
+                    var mInviteeRow_3 = $("#InviteeRow_3");
+                    mInviteeRow_3.toggle();
+                    $('#addInvitee_2').toggle();
+                });
+
+                $('#addInvitee_3').on('click', function () {
+                    var mInviteeRow_4 = $("#InviteeRow_4");
+                    mInviteeRow_4.toggle();
+                    $('#addInvitee_3').toggle();
+                });
+
+                $('#addInvitee_4').on('click', function () {
+                    var mInviteeRow_5 = $("#InviteeRow_5");
+                    mInviteeRow_5.toggle();
+                    $('#addInvitee_4').toggle();
+                });
+
+                $('#addInvitee_5').on('click', function () {
+                    var mInviteeRow_6 = $("#InviteeRow_6");
+                    mInviteeRow_6.toggle();
+                    $('#addInvitee_5').toggle();
+                });
+
+                $('#addInvitee_6').on('click', function () {
+                    var mInviteeRow_2 = $("#InviteeRow_2");
+                    mInviteeRow_2.toggle();
+                    $('#addInvitee_6').toggle();
+                });
+
+                $('#jqxtabs').jqxTabs({width: '100%', theme: 'energyblue'});
+                $('#mapit').jqxButton({ width: '100%', height: 25, theme: 'energyblue' });
+
+                $('#mapit').on('click', function () {
+                    var mapTarget = document.getElementById('InviteMap');
+                    var address = document.getElementById("Location1").value;
+                    var geocoder = new google.maps.Geocoder();
+
+
+                    maptwo = new google.maps.Map(mapTarget, {
+                        zoom: 16,
+                        center: {lat:36.586246, lng:-79.391800},
+                        mapTypeId: google.maps.MapTypeId.TERRAIN
+                    });
+
+                    geocoder.geocode( { 'address': address}, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            maptwo.setCenter(results[0].geometry.location);
+                            var marker = new google.maps.Marker({
+                                map: maptwo,
+                                position: results[0].geometry.location
+                            });
+                        } else {
+                            alert("Geocode was not successful for the following reason: " + status);
+                        }
+                    });
+                });
+
+
+            });
+            //*********************End Testing Customizing the Appointment Dialog********************
+
+            //************************Start Mapit Button*******************************
+
+            /*
+             function codeAddress() {
+             var address = document.getElementById("Location1").value;
+             geocoder.geocode( { 'address': address}, function(results, status) {
+             if (status == google.maps.GeocoderStatus.OK) {
+             map.setCenter(results[0].geometry.location);
+             var marker = new google.maps.Marker({
+             map: map,
+             position: results[0].geometry.location
+             });
+             } else {
+             alert("Geocode was not successful for the following reason: " + status);
+             }
+             });
+             }
+             */
+
+
+            //*********************Start
+            $("#scheduler").on('editDialogOpen', function(event){
+                var args = event.args;
+                var appointment = args.appointment;
+
+                if (appointment) {
+                    $('#Operator').val(appointment.Name);
+                    $('#Platform').val(appointment.LastName);
+                    $('#Sensor1').val(appointment.LastName);
+                } else{
+                    $('#Operator').val('');
+                    $('#Platform').val('');
+                    $('#Sensor1').val('');
+                }
+            });
+            //**********End
+
+            //**************Start
+            $("#scheduler").on('appointmentChange', function (event) {
+                var args = event.args;
+                var appointment = args.appointment;
+
+                appointment.Name = $("#Operator").val();
+                appointment.LastName = $("#Platform").val();
+                appointment.LastName = $("#Sensor1").val();
+            });
+            //************End
+        }
+
+        function setupCurrentMissions(missionsData) {
+
+            var lstMissions = document.getElementById("missions");
+
+
+
+            var items = [];
+            $.each( missionsData, function( index, value ) {
+
+
+                if(! value.IsHidden ) {
+
+                    var uriVal = 'mission.html?name=' + value.Name + '&ID=' + value.ID;
+
+                    var liTag = document.createElement("li");
+                    var aTag = document.createElement("a");
+                    aTag.className += " missionLinks";
+
+                    aTag.setAttribute('href', uriVal);
+                    aTag.innerHTML = value.Name + " Mission";
+
+                    liTag.appendChild(aTag);
+                    lstMissions.appendChild(liTag);
+                }
+
+            } );
+        }
+
+        function parseJsonDate(jsonDateString){
+            return new Date(parseInt(jsonDateString.replace('/Date(', '')));
+        }
+
+
+        /*function initialize() {
+         geocoder = new google.maps.Geocoder();
+         var latlng = new google.maps.LatLng(-34.397, 150.644);
+         var mapOptions = {
+         zoom: 8,
+         center: latlng
+         }
+         map = new google.maps.Map(document.getElementById("map"), mapOptions);
+         }*/
+
+        function codeAddress() {
+            var address = document.getElementById("Location1").value;
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    maptwo.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: maptwo,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+        }
+
     </script>
+
     <script type="text/javascript">
         $(document).ready(function () {
-
-            $('#dockingVideoChat').jqxDocking( {
+            /*$('#dockingVideoChat').jqxDocking( {
                 orientation : 'vertical',
                 width: 600,
                 mode: 'default',
                 theme: 'dark'
             } );
 
-            $('#dockingVideoChat').jqxDocking('showCollapseButton', 'window5');
+            $('#dockingVideoChat').jqxDocking('showCollapseButton', 'window5');*/
         });
     </script>
     <script type="text/javascript">
@@ -290,6 +1093,7 @@
 
             function openSchedulerPanel() {
                 //alert("wow7");
+                $("#scheduleWindow").jqxWindow({maxWidth: 1900, maxHeight: 937, width: 1900, height: 937, theme: 'dark', isModal: true, autoOpen: false, position: { x: 0, y: 0 }});
                 $("#scheduleWindow").jqxWindow('open');
             }
 
@@ -310,12 +1114,12 @@
             </div>
         </div>
 
-        <div id='scheduleWindow' class="modalLogin">
+        <div id='scheduleWindow' style="width: 1850px; height: 1200px" >
             <div>
                 MissionKeeper Scheduler
             </div>
             <div>
-                <div id="scheduler" class="schedulePanel">
+                <div id="scheduler" class="schedulePanelMission">
                 </div>
             </div>
         </div>
@@ -425,14 +1229,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="window3" style="height: 500px">
+                                    <div id="window3" style="height: 360px">
                                         <div>
                                             DEVICE INFO
                                         </div>
-                                        <div>
-                                            Some aspects attributed to the first RISC-labeled designs around 1975 include the
-                                            observations that the memory-restricted compilers of the time were often unable
-                                            to take advantage...
+                                        <div style="padding: 0; width: 100%; height: 100px;">
+                                            <img src="img/DeviceStatus.png" >
                                         </div>
                                     </div>
                                 </div>
@@ -444,7 +1246,7 @@
                     <div id="videoChatContainer">
                         <!-- Docking Widget - Start -->
                         <div id='jqxWidgetDock_2'>
-                            <div id="dockingVideoChat">
+                            <!-- <div id="dockingVideoChat">
                                 <div>
                                     <div id="window5" style="height: 150px">
                                         <div>
@@ -455,7 +1257,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- Docking Widget - End -->
                     </div>
@@ -1010,6 +1812,18 @@
                     aspectratio: "16:9",
                     autostart: 'true',
                     controlbar: 'none'});
+
+                /*  This is the code for the jwplayer D0gMpfYS4+zwogqhtfmcPYRwXgcduLHyfSMsnysJlP4= */
+                /*var streamURI = "/videos/SpinAroundThe Neighborhood.mp4";
+
+                jwplayer.key = "D0gMpfYS4+zwogqhtfmcPYRwXgcduLHyfSMsnysJlP4=";
+                jwplayer("myElement").setup({
+                    file: streamURI,
+                    image: streamData.ThumbnailURI,
+                    width: "100%",
+                    aspectratio: "16:9",
+                    autostart: 'true',
+                    controlbar: 'none'});*/
             }
 
 
@@ -1144,7 +1958,7 @@
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 12,
                     center: {lat:36.586246, lng:-79.391800},
-                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                    mapTypeId: google.maps.MapTypeId.TERRAIN
                 });
             }
 
@@ -1153,7 +1967,7 @@
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 16,
                     center: {lat: lat, lng:  lng},
-                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                    mapTypeId: google.maps.MapTypeId.TERRAIN
                 });
 
                 var image = 'img/flag-green-icon.png';

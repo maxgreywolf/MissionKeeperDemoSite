@@ -145,6 +145,12 @@
     float: right;
 }
 
+.schedulePanelMission {
+    width: 1800px;
+    height: 1200px;
+    text-align: center;
+}
+
 #missions {
     color: white;
 }
@@ -319,6 +325,11 @@ html, body {
     height: 250px;
 }
 
+#InviteMap {
+    width: 379px;
+    height: 250px;
+}
+
 #jqxtabs {
 
 }
@@ -332,13 +343,11 @@ html, body {
 
 .inviteeRow {
     visibility: hidden;
-    margin: 0px 0px 4px 0px;
-    background-color: rgba(0, 0, 0, 0.5);
+    margin: 0px 0px 4px 0px;;
 }
 
 .inviteeRowNum {
     float: left;
-    color: #FFFFFF;
     margin: 0;
 }
 
@@ -357,7 +366,6 @@ html, body {
     width: 100%;
     border: 10px;
     margin: 5px 0 0 0;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .InviteeFieldName {
@@ -365,7 +373,6 @@ html, body {
     width: 70px;
     padding: 0px 4px 4px 0px;
     margin: 0;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .InviteeFieldEmail {
@@ -373,14 +380,12 @@ html, body {
     width: 130px;
     padding: 0px 4px 4px 0px;
     margin: 0;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .InviteeFieldRole {
     height: 15px;
     padding: 0px 2px 4px 0px;
     margin: 0;
-    background-color: rgba(0, 0, 0, 0.0);
 }
 
 .InviteeFieldAdd {
@@ -388,7 +393,6 @@ html, body {
     width: 15px;
     padding: 0px 0px 4px 0px;
     margin: 0;
-    background-color: rgba(0, 0, 0, 0.0);
 }
 
 .TabContentDiv {
