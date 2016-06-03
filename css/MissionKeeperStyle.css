@@ -404,3 +404,8 @@ html, body {
 .appointmentField {
     margin: 13px 0 0 0;
 }
+
+.OT_mini {
+    width: 1px;
+    height: 1px;
+}
