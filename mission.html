@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -146,7 +146,7 @@
             });
 
             $('#scheduleWindow').on('open', function (event) {
-                var uriMissions = "http://missionkeeperapi.azurewebsites.net/api/missions";
+                var uriMissions = "http://missionkeeperdemoapi.azurewebsites.net/api/missions";
 
                 $.getJSON(uriMissions, function(missionsData)  {
 
@@ -754,7 +754,7 @@
 
                             if (inviteeName_1 && inviteeEmail_1 && inviteeRole_1) {
 
-                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_1 + "/role/" + inviteeRole_1 + "/email/" + inviteeEmail_1 + "/";
+                                var uriInviteEmail = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_1 + "/role/" + inviteeRole_1 + "/email/" + inviteeEmail_1 + "/";
 
                                 $.getJSON(uriInviteEmail, function (result) {
                                     console.log("Invitation : " + result);
@@ -767,7 +767,7 @@
 
                             if (inviteeName_2 && inviteeEmail_2 && inviteeRole_2) {
 
-                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_2 + "/role/" + inviteeRole_2 + "/email/" + inviteeEmail_2 + "/";
+                                var uriInviteEmail = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_2 + "/role/" + inviteeRole_2 + "/email/" + inviteeEmail_2 + "/";
 
                                 $.getJSON(uriInviteEmail, function (result) {
                                     console.log("Invitation : " + result);
@@ -780,7 +780,7 @@
 
                             if (inviteeName_3 && inviteeEmail_3 && inviteeRole_3) {
 
-                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_3 + "/role/" + inviteeRole_3 + "/email/" + inviteeEmail_3 + "/";
+                                var uriInviteEmail = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_3 + "/role/" + inviteeRole_3 + "/email/" + inviteeEmail_3 + "/";
 
                                 $.getJSON(uriInviteEmail, function (result) {
                                     console.log("Invitation : " + result);
@@ -793,7 +793,7 @@
 
                             if (inviteeName_4 && inviteeEmail_4 && inviteeRole_4) {
 
-                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_4 + "/role/" + inviteeRole_4 + "/email/" + inviteeEmail_4 + "/";
+                                var uriInviteEmail = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_4 + "/role/" + inviteeRole_4 + "/email/" + inviteeEmail_4 + "/";
 
                                 $.getJSON(uriInviteEmail, function (result) {
                                     console.log("Invitation : " + result);
@@ -806,7 +806,7 @@
 
                             if (inviteeName_5 && inviteeEmail_5 && inviteeRole_5) {
 
-                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_5 + "/role/" + inviteeRole_5 + "/email/" + inviteeEmail_5 + "/";
+                                var uriInviteEmail = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_5 + "/role/" + inviteeRole_5 + "/email/" + inviteeEmail_5 + "/";
 
                                 $.getJSON(uriInviteEmail, function (result) {
                                     console.log("Invitation : " + result);
@@ -819,7 +819,7 @@
 
                             if (inviteeName_6 && inviteeEmail_6 && inviteeRole_6) {
 
-                                var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_6 + "/role/" + inviteeRole_6 + "/email/" + inviteeEmail_6 + "/";
+                                var uriInviteEmail = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + mMissionID + "/username/" + inviteeName_6 + "/role/" + inviteeRole_6 + "/email/" + inviteeEmail_6 + "/";
 
                                 $.getJSON(uriInviteEmail, function (result) {
                                     console.log("Invitation : " + result);
@@ -1306,14 +1306,14 @@
 
                 var apiKey = null;
 
-                var uriMission = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID;
+                var uriMission = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + missionID;
                 $.getJSON(uriMission, function(missionData)  {
 
                     vMissionData = missionData;
 
                     apiKey = missionData.ApiKey;
 
-                    var uriToken = "http://missionkeeperapi.azurewebsites.net/api/session/mission/" +  missionID + "/username/" + vUserName + "/role/" + vRole ;
+                    var uriToken = "http://missionkeeperdemosite.azurewebsites.net//api/session/mission/" +  missionID + "/username/" + vUserName + "/role/" + vRole ;
 
                     setupStreams(missionData.VideoStreams);
 
@@ -1492,7 +1492,7 @@
                     var inviteRole = document.getElementById('InviteRole');
                     var inviteEmail = document.getElementById('InviteEmail');
                     // Build URI to get JSON from
-                    var uriInviteEmail = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID + "/username/" + inviteName.value + "/role/" + inviteRole.value + "/email/" + inviteEmail.value + "/";
+                    var uriInviteEmail = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + missionID + "/username/" + inviteName.value + "/role/" + inviteRole.value + "/email/" + inviteEmail.value + "/";
 
                     //Get JSON telemetry and call new timer
                     $.getJSON(uriInviteEmail, function (result) {
@@ -1870,7 +1870,7 @@
                 function updateTelemetry( elapsedTime ){
 
                     // Build URI to get JSON from
-                    var uriStreamTelemetry = "http://missionkeeperapi.azurewebsites.net/api/mission/" + missionID + "/stream/" + streamID + "/flightpath/" + elapsedTime + "/";
+                    var uriStreamTelemetry = "http://missionkeeperdemoapi.azurewebsites.net/api/mission/" + missionID + "/stream/" + streamID + "/flightpath/" + elapsedTime + "/";
 
                     console.log("Updating Telemerty : " +  elapsedTime);
 
